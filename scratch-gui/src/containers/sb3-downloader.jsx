@@ -18,6 +18,7 @@ import downloadBlob from '../lib/download-blob';
  *     />
  * )}</SB3Downloader>
  */
+    //   
 class SB3Downloader extends React.Component {
     constructor (props) {
         super(props);
@@ -26,10 +27,13 @@ class SB3Downloader extends React.Component {
         ]);
     }
     downloadProject () {
+        console.log(this.props,'saveProjectSb3')
         this.props.saveProjectSb3().then(content => {
             if (this.props.onSaveFinished) {
                 this.props.onSaveFinished();
             }
+            console.log(this.props.projectFilename,content,'saveProjectSb3content')
+
             downloadBlob(this.props.projectFilename, content);
         });
     }

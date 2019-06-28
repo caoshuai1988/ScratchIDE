@@ -9,7 +9,6 @@ import Stage from '../../containers/stage.jsx';
 import Loader from '../loader/loader.jsx';
 
 import styles from './stage-wrapper.css';
-
 const StageWrapperComponent = function (props) {
     const {
         isFullScreen,
@@ -17,20 +16,31 @@ const StageWrapperComponent = function (props) {
         isRendererSupported,
         loading,
         stageSize,
-        vm
+        vm,
+        player
     } = props;
+    console.log(props,'[][][][][]')
 
     return (
         <Box
             className={styles.stageWrapper}
             dir={isRtl ? 'rtl' : 'ltr'}
         >
-            <Box className={styles.stageMenuWrapper}>
+            {/* <Box className={styles.stageMenuWrapper}>
                 <StageHeader
                     stageSize={stageSize}
                     vm={vm}
                 />
-            </Box>
+            </Box> */}
+            {   player?  []:  
+                (<Box className={styles.stageMenuWrapper}>
+                    <StageHeader
+                        stageSize={stageSize}
+                        vm={vm}
+                    />
+                </Box>)
+            }
+
             <Box className={styles.stageCanvasWrapper}>
                 {
                     isRendererSupported ?
@@ -41,6 +51,14 @@ const StageWrapperComponent = function (props) {
                         null
                 }
             </Box>
+
+            {   player?  (<Box className={styles.stageMenuWrapper}>
+                    <StageHeader
+                        stageSize={stageSize}
+                        vm={vm}
+                    />
+                </Box> ): []
+            }
             {loading ? (
                 <Loader isFullScreen={isFullScreen} />
             ) : null}
@@ -54,7 +72,8 @@ StageWrapperComponent.propTypes = {
     isRtl: PropTypes.bool.isRequired,
     loading: PropTypes.bool,
     stageSize: PropTypes.oneOf(Object.keys(STAGE_DISPLAY_SIZES)).isRequired,
-    vm: PropTypes.instanceOf(VM).isRequired
+    vm: PropTypes.instanceOf(VM).isRequired,
+    player:PropTypes.bool
 };
 
 export default StageWrapperComponent;

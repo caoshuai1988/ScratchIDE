@@ -159,6 +159,8 @@ class MenuBar extends React.Component {
         ]);
     }
     componentDidMount () {
+        console.log( this.props.className,'-=-=-=-=')
+        console.log( styles.mainMenu,'-=-=-=-=')
         document.addEventListener('keydown', this.handleKeyPress);
     }
     componentWillUnmount () {
@@ -318,9 +320,15 @@ class MenuBar extends React.Component {
                     styles.menuBar
                 )}
             >
+                {/*nav左边部分*/}
                 <div className={styles.mainMenu}>
                     <div className={styles.fileGroup}>
+                        {/* 头部最左边的图片 */}
                         <div className={classNames(styles.menuBarItem)}>
+                        {/* gui_menu-bar-position_3U1T0 menu-bar_menu-bar_JcuHF box_box_2jjDp */}
+                            {/* const onClickLogo = () => {
+                                window.location = 'https://scratch.mit.edu';
+                            }; */}
                             <img
                                 alt="Scratch"
                                 className={classNames(styles.scratchLogo, {
@@ -331,14 +339,18 @@ class MenuBar extends React.Component {
                                 onClick={this.props.onClickLogo}
                             />
                         </div>
+
+                         {/* 头部转换各种语言 */}
                         <div
                             className={classNames(styles.menuBarItem, styles.hoverable, styles.languageMenu)}
                         >
                             <div>
+                                {/* 转换语言图片 */}
                                 <img
                                     className={styles.languageIcon}
                                     src={languageIcon}
                                 />
+                                {/* 下拉框 */}
                                 <img
                                     className={styles.languageCaret}
                                     src={dropdownCaret}
@@ -346,6 +358,8 @@ class MenuBar extends React.Component {
                             </div>
                             <LanguageSelector label={this.props.intl.formatMessage(ariaMessages.language)} />
                         </div>
+
+                        {/* 头部文件包 */}
                         <div
                             className={classNames(styles.menuBarItem, styles.hoverable, {
                                 [styles.active]: this.props.fileMenuOpen
@@ -396,11 +410,13 @@ class MenuBar extends React.Component {
                                         userOwnsProject={this.props.userOwnsProject}
                                         onUpdateProjectTitle={this.props.onUpdateProjectTitle}
                                     >
+                                        
                                         {(className, renderFileInput, loadProject) => (
                                             <MenuItem
                                                 className={className}
                                                 onClick={loadProject}
                                             >
+                                                111
                                                 {this.props.intl.formatMessage(sharedMessages.loadFromComputerTitle)}
                                                 {renderFileInput()}
                                             </MenuItem>
@@ -411,6 +427,7 @@ class MenuBar extends React.Component {
                                             className={className}
                                             onClick={this.handleSaveToComputer(downloadProjectCallback)}
                                         >
+                                            222
                                             <FormattedMessage
                                                 defaultMessage="Save to your computer"
                                                 description="Menu bar item for downloading a project to your computer"
@@ -445,7 +462,7 @@ class MenuBar extends React.Component {
                                         className={classNames({[styles.disabled]: !restorable})}
                                         onClick={this.handleRestoreOption(handleRestore)}
                                     >
-                                        {this.restoreOptionMessage(deletedItem)}
+                                      {this.restoreOptionMessage(deletedItem)}
                                     </MenuItem>
                                 )}</DeletionRestorer>
                                 <MenuSection>
@@ -504,8 +521,10 @@ class MenuBar extends React.Component {
                             username={this.props.authorUsername}
                         />
                     ) : null)}
+                   
                     <div className={classNames(styles.menuBarItem)}>
-                        {this.props.canShare ? (
+                        {/* 分享 */}
+                        { this.props.canShare || 1 ? (
                             (this.props.isShowingProject || this.props.isUpdating) && (
                                 <ProjectWatcher onDoneUpdating={this.props.onSeeCommunity}>
                                     {
@@ -532,11 +551,13 @@ class MenuBar extends React.Component {
                         )}
                         {this.props.canRemix ? remixButton : []}
                     </div>
+                    
                     <div className={classNames(styles.menuBarItem, styles.communityButtonWrapper)}>
                         {this.props.enableCommunity ? (
                             (this.props.isShowingProject || this.props.isUpdating) && (
                                 <ProjectWatcher onDoneUpdating={this.props.onSeeCommunity}>
                                     {
+                                        
                                         waitForUpdate => (
                                             <CommunityButton
                                                 className={styles.menuBarButton}
@@ -560,16 +581,28 @@ class MenuBar extends React.Component {
 
                 {/* show the proper UI in the account menu, given whether the user is
                 logged in, and whether a session is available to log in with */}
+
+                {/*nav右边部分*/}
                 <div className={styles.accountInfoGroup}>
+                    {/* 右边头部的文件包 */}
                     <div className={styles.menuBarItem}>
                         {this.props.canSave && (
                             <SaveStatus />
                         )}
+                        <SB3Downloader>{(className, downloadProjectCallback) => (
+                                        <MenuItem
+                                            className={className}
+                                            onClick={this.handleSaveToComputer(downloadProjectCallback)}
+                                        >
+                                            222写作业
+                                        </MenuItem>
+                                    )}</SB3Downloader>
                     </div>
                     {this.props.sessionExists ? (
                         this.props.username ? (
                             // ************ user is logged in ************
                             <React.Fragment>
+                                1111
                                 <a href="/mystuff/">
                                     <div
                                         className={classNames(

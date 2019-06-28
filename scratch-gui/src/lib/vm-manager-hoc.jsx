@@ -122,6 +122,9 @@ const vmManagerHOC = function (WrappedComponent) {
 
     const mapStateToProps = state => {
         const loadingState = state.scratchGui.projectState.loadingState;
+        console.log(state.scratchGui.projectState.projectData,'2222')
+        console.log(state.scratchGui.projectState,'1111')
+
         return {
             fontsLoaded: state.scratchGui.fontsLoaded,
             isLoadingWithId: getIsLoadingWithId(loadingState),

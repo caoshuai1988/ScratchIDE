@@ -46,7 +46,34 @@ import gdxforInsetIconURL from './gdxfor/gdxfor-small.svg';
 import gdxforConnectionIconURL from './gdxfor/gdxfor-illustration.svg';
 import gdxforConnectionSmallIconURL from './gdxfor/gdxfor-small.svg';
 
+// import makeymakeyInsetImage from './makeymakey-small.svg';
+import helloworldImage from './helloworld.png';
+import helloworldInsetImage from './helloworld-small.svg';
+// import microbitPeripheralImage from './peripheral-connection/microbit/microbit-illustration.svg';
+// import microbitMenuImage from './peripheral-connection/microbit/microbit-small.svg';
+// import ev3PeripheralImage from './peripheral-connection/ev3/ev3-hub-illustration.svg';
+
 export default [
+    {
+        name: (
+            <FormattedMessage
+                defaultMessage="hello world"
+                description="Name for the 'hello world' extension"
+                id="gui.extension.helloworld.name"
+            />
+        ),
+        extensionId: 'helloWorld',
+        iconURL: helloworldImage,
+        insetIconURL: helloworldInsetImage,
+        description: (
+            <FormattedMessage
+                defaultMessage="hello world."
+                description="Description for the 'hello world' extension"
+                id="gui.extension.helloworld.description"
+            />
+        ),
+        featured: true
+    },
     {
         name: (
             <FormattedMessage
