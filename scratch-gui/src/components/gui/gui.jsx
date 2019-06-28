@@ -134,7 +134,6 @@ const GUIComponent = props => {
 
     return (<MediaQuery minWidth={layout.fullSizeMinWidth}>{isFullSize => {
         const stageSize = resolveStageSize(stageSizeMode, isFullSize);
-
         return isPlayerOnly ? (
             <StageWrapper
                 isFullScreen={isFullScreen}
@@ -143,6 +142,7 @@ const GUIComponent = props => {
                 loading={loading}
                 stageSize={STAGE_SIZE_MODES.large}
                 vm={vm}
+                player={isPlayerOnly}
             >
                 {alertsVisible ? (
                     <Alerts className={styles.alertsContainer} />
@@ -376,6 +376,7 @@ GUIComponent.propTypes = {
     isFullScreen: PropTypes.bool,
     isPlayerOnly: PropTypes.bool,
     isRtl: PropTypes.bool,
+    player:PropTypes.bool,
     isShared: PropTypes.bool,
     loading: PropTypes.bool,
     onActivateCostumesTab: PropTypes.func,

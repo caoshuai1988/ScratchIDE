@@ -16,9 +16,12 @@ class Controls extends React.Component {
     }
     handleGreenFlagClick (e) {
         e.preventDefault();
+        //是否打开加速模式（e.shiftKey）默认false
         if (e.shiftKey) {
             this.props.vm.setTurboMode(!this.props.turbo);
         } else {
+            console.log(this.props.isStarted,'惦记了，')
+
             if (!this.props.isStarted) {
                 this.props.vm.start();
             }

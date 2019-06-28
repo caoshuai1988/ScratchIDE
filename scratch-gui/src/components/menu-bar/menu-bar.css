@@ -27,7 +27,10 @@
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: $menu-bar-standard-font-size;
     font-weight: bold;
-    background-color: $motion-primary;
+
+    /* 头部导航栏颜色 */
+    
+    background-color:$motion-primary ;
     color: $ui-white;
 }
 

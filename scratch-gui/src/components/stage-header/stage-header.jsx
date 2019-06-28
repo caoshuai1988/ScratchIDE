@@ -147,26 +147,27 @@ const StageHeaderComponent = function (props) {
                 </div>
             );
         header = (
-            <Box className={styles.stageHeaderWrapper}>
+            <Box className={styles.stageHeaderWrapper } style={{width:'480px'}}>
                 <Box className={styles.stageMenuWrapper}>
                     <Controls vm={vm} />
-                    <div className={styles.stageSizeRow}>
+                    {/* <div className={styles.stageSizeRow}>
                         {stageControls}
                         <div>
-                            <Button
-                                className={styles.stageButton}
-                                onClick={onSetStageFull}
-                            >
-                                <img
-                                    alt={props.intl.formatMessage(messages.fullStageSizeMessage)}
-                                    className={styles.stageButtonIcon}
-                                    draggable={false}
-                                    src={fullScreenIcon}
-                                    title={props.intl.formatMessage(messages.fullscreenControl)}
-                                />
-                            </Button>
+                            
                         </div>
-                    </div>
+                    </div> */}
+                    <Button
+                        className={styles.stageButton}
+                        onClick={onSetStageFull}
+                    >
+                        <img
+                            alt={props.intl.formatMessage(messages.fullStageSizeMessage)}
+                            className={styles.stageButtonIcon}
+                            draggable={false}
+                            src={fullScreenIcon}
+                            title={props.intl.formatMessage(messages.fullscreenControl)}
+                        />
+                    </Button>
                 </Box>
             </Box>
         );

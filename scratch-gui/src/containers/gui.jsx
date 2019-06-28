@@ -5,9 +5,7 @@ import {connect} from 'react-redux';
 import ReactModal from 'react-modal';
 import VM from 'scratch-vm';
 import {defineMessages, injectIntl, intlShape} from 'react-intl';
-
 import analytics from '../lib/analytics';
-
 import ErrorBoundaryHOC from '../lib/error-boundary-hoc.jsx';
 import {
     getIsError,
@@ -20,6 +18,10 @@ import {
     COSTUMES_TAB_INDEX,
     SOUNDS_TAB_INDEX
 } from '../reducers/editor-tab';
+
+import {
+    setPlayer
+} from '../reducers/mode';
 
 import {
     closeCostumeLibrary,
@@ -41,6 +43,7 @@ import cloudManagerHOC from '../lib/cloud-manager-hoc.jsx';
 import GUIComponent from '../components/gui/gui.jsx';
 import {setIsScratchDesktop} from '../lib/isScratchDesktop.js';
 
+
 const messages = defineMessages({
     defaultProjectTitle: {
         id: 'gui.gui.defaultProjectTitle',
@@ -50,39 +53,54 @@ const messages = defineMessages({
 });
 
 class GUI extends React.Component {
-    /*componentDidMount () {
+    componentDidMount () {
+        console.log('start----');
         setIsScratchDesktop(this.props.isScratchDesktop);
         this.setReduxTitle(this.props.projectTitle);
         this.props.onStorageInit(storage);
-    }*/
-	componentDidMount () {
-		setIsScratchDesktop(this.props.isScratchDesktop);
-		this.setReduxTitle(this.props.projectTitle);
-		this.props.onStorageInit(storage);
+        // let url=''
+       
+        // const url ='https://steam.nosdn.127.net/dac8f13d-6796-4552-9352-ecfdfb21f41c.sb3'
+        const url = './static/assets/Demo.sb3'
 
-		const url = 'http://www.keji.test.com/a.sb3';
+        // fetch('https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=1&rsv_idx=2&tn=baiduhome_pg&wd=reactx%E4%BD%BF%E7%94%A8&rsv_spt=1&oq=react%2520%25E6%259B%25B4%25E6%2594%25B9%25E5%258F%2598%25E9%2587%258F%25E7%259A%2584%25E5%2580%25BC&rsv_pq=8126e3c00004370e&rsv_t=47efTKT4NTBY5cLWmv%2Bugo7ubkgfFx%2FbnzqJbmzrkMk6B1mu7TcgwLddDbpMqtRhM2%2Bd&rqlang=cn&rsv_enter=1&rsv_sug3=20&rsv_sug1=4&rsv_sug7=100&rsv_sug2=0&inputT=6575&rsv_sug4=7614',{
+        //     method:'POST'
+        // })
+        // .then( response=>{
+        //     console.log(response)
+        //     }
+        // )
 
-		if(url !== null && url != undefined ){
-			fetch(url,{
-				method:'GET'
-			}).then(response => response.blob()).then(blob =>{
-				const reader = new FileReader();
 
-				reader.onload = () =>this.props.vm.loadProject(reader.result).then(()=>{
-					analytics.event({
-						category:'project',
-						action:'Improt project File',
-						nonInteraction:true
-					})
-				});
+        if(url !== null && url !=undefined ){
+            fetch(url,{
+                method:'GET'
+            })
+            .then(response => 
+                response.blob()
+            )
+            .then(blob =>{
+                let falg = false
+                this.props.setplayeronly(falg)
+                const reader = new FileReader();
+                console.log(reader.result,'reader.resultreader.resultreader.result')
+                reader.onload = () =>this.props.vm.loadProject(reader.result)
+                .then(()=>{
+                    analytics.event({
+                        category:'project',
+                        action:'Improt project File',
+                        nonInteraction:true
+                    })
+                })
 
-				reader.readAsArrayBuffer(blob)
-			}).catch(error =>{
-				alert(`远程加载文件错误！${error}`)
-			})
-		}
-	}
-	componentDidUpdate (prevProps) {
+                reader.readAsArrayBuffer(blob)
+            })
+            .catch(error =>{
+                alert(`远程加载文件错误！${error}`)
+            })
+        }
+    }
+    componentDidUpdate (prevProps) {
         if (this.props.projectId !== prevProps.projectId && this.props.projectId !== null) {
             this.props.onUpdateProjectId(this.props.projectId);
         }
@@ -205,6 +223,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
+    setplayeronly: falg => dispatch(setPlayer(falg)),
     onExtensionButtonClick: () => dispatch(openExtensionLibrary()),
     onActivateTab: tab => dispatch(activateTab(tab)),
     onActivateCostumesTab: () => dispatch(activateTab(COSTUMES_TAB_INDEX)),
