@@ -1,0 +1,145 @@
+@import '../../style/mixin.scss';
+
+.content {
+  height: 100%;
+  .con-box{
+    @include positionCenter();
+    @include wh(1000px,533px);
+    display: flex;
+    .left{
+      @include wh(600px,500px);
+      position: relative;
+      background: #fff;
+      border-radius: 20px;
+      .course{
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        @include wh(600px,375px);
+      }
+      .title{
+        top: 388px;
+        left: 14px;
+        position: absolute;
+        font-size: 26px;
+        color: #000;
+      }
+      .check{
+        left: 220px;
+        top: 388px;
+        position: absolute;
+        @include wh(34px,34px);
+      }
+      .btn{
+        position: absolute;
+        left: 202px;
+        top: 467px;
+        @include wh(200px,61px);
+        .checkBtn{
+          @include wh(200px,61px);
+        }
+        .run{
+          top: 13px;
+          left: 50px;
+          position: absolute;
+          text-align: center;
+          font-size: 24px;
+          z-index: 99;
+          color: #fff;
+        }
+      }
+      
+    }
+    .right{
+      margin-left: 60px;
+      .ont{
+        position: absolute;
+        .mainMy{
+          box-shadow: 0 0 14px 0 #2033A8;
+          @include wh(340px,160px);
+        }
+        .ontText{
+          top: 72px;
+          left: 16px;
+          position: absolute;
+          font-size: 24px;
+          color: #FFFFFF;
+        }
+      }
+      .two{
+        margin-top: 201px;
+        position: absolute;
+        .mainSq{
+          box-shadow: 0 0 14px 0 #2033A8;
+          @include wh(340px,160px);
+        }
+        .ontText{
+          top: 72px;
+          left: 16px;
+          position: absolute;
+          font-size: 24px;
+          color: #FFFFFF;
+        }
+      }
+      .three{
+        margin-top: 400px;
+        position: absolute;
+        .mainFree{
+          box-shadow: 0 0 14px 0 #2033A8;
+          @include wh(340px,100px);
+        }
+        .ontText{
+          top: 34px;
+          left: 16px;
+          position: absolute;
+          font-size: 24px;
+          color: #FFFFFF;
+        }
+        .mainFreeImage{
+          right: 12px;
+          top: -23px;
+          position: absolute;
+          @include wh(141px,123px);
+        }
+      }
+    }
+  }
+  .set{
+    position: fixed;
+    right: 15px;
+    top: 18px;
+    @include wh(305px,70px);
+    .name{
+      position: absolute;
+      .mainNb{
+        @include wh(190px,70px);
+      }
+      .mainImg{
+        position: absolute;
+        left: 5px;
+        top: 5px;
+        border-radius: 50%;
+        @include wh(60px,60px);
+      }
+      .nameD{
+        position: absolute;
+        left: 76px;
+        top: 22px;
+        font-size: 20px;
+        color: #FFFFFF;
+      }
+    }
+    .setName{
+      position: absolute;
+      right: 0;
+      background: #1A1C6E;
+      @include wh(60px,60px);
+      border-radius: 50%;
+      .mainSet{
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        @include wh(40px,40px);
+      }
+    }
+  }
+}
