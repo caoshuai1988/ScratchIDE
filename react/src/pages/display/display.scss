@@ -1,0 +1,190 @@
+@import '../../style/mixin.scss';
+
+.content {
+  height: 100%;
+  .con-box{
+      @include positionCenter();
+      @include wh(1000px,640px);
+      background: white;
+      border-radius: 18px;
+      box-shadow: 0 8px 4px 0 #16186D;
+      padding: 24px 26px 40px 24px ;
+      .fa{
+        font-family: PingFangSC-Regular;
+        font-size: 20px;
+        color: #F7B500;
+        text-align: left;
+      }
+      .line{
+          margin-top: 16px;
+          width: 100%;
+          background: #F0F0F0;
+          height: 1px;
+      }
+      .flex-box{
+        display: flex;
+        margin-left: 47px;
+        margin-top: 29px;
+        .production{
+            .name{
+              font-family: PingFangSC-Regular;
+              font-size: 16px;
+              color: #000000;
+              text-align: left;
+            }
+            .zuo{
+              font-size: 16px;
+              color: #000000;
+              text-align: left;
+            }
+            .inputText{
+              padding-left: 9px;
+              background: #F0F0F0;
+              border-radius: 4px;
+              width: 380px;
+              height: 39px;
+              margin-top: 8px;
+              color: #000000;
+
+            }
+            .explain{
+              margin-top: 37px;
+              font-size: 16px;
+              color: #000000;
+              text-align: left;
+              margin-bottom: 12px;  
+            }
+            .textAll{
+              background: #F0F0F0;
+              border-radius: 4px;
+              width: 380px;
+              height: 200px;
+            }
+            textarea{
+              padding-top: 8px;
+              padding-left: 9px;
+              font-size: 14px;
+              color: #000;
+              text-align: left;
+            }
+            .select{
+              display: flex;
+              margin-top: 25px;
+              .share{
+                font-size: 12px;
+                color: #6D7278;
+                text-align: left;
+                margin-left: 7px
+              }
+              .left{
+                margin-left: 56px;
+                position: relative;
+                .hidden-input {
+                  opacity: 0;
+                  position: absolute;
+                  z-index: -1;
+                }
+                .dui{
+                  left: 0px;
+                  position:absolute;
+                  @include wh(18px, 18px)
+                }
+              }
+            }
+        }
+        .cover{
+          margin-left: 107px;
+          .zuo{
+            margin-bottom: 6px;
+            font-size: 16px;
+            color: #000000;
+            text-align: left;
+          }
+          .imgAll{
+            display: flex;
+            width: 100%;
+            flex-wrap: wrap; 
+            .imageWh{
+              margin-right: 40px;
+              margin-bottom: 40px;
+              @include wh(160px,120px)
+            }
+            .img-container {
+                margin-right: 40px;
+                margin-bottom: 40px;
+              @include wh(160px,120px)
+              img{
+                width: 100%;
+                height: 100%;
+              }
+
+            }
+            .jia{
+              position: relative;
+              margin-right: 40px;
+              margin-bottom: 40px;
+              @include wh(160px,120px);
+              border: 1px solid #C6C6C6;
+              border-radius: 4px;
+              .fuhao{
+                @include wh(20px,20px);
+                @include positionCenter
+              }
+            }
+          }
+        }
+      }
+      
+    
+  }
+  @include flex;
+  .btn{
+    position: fixed;
+    bottom: 146px;
+    @include wh(466px,48px);
+    .buttom{
+      display: inline-block;
+      @include wh(158px,48px);
+      background: #F7B500;
+      box-shadow: 0 4px 4px 0 rgba(0,0,0,0.16);
+      border-radius: 40px;
+      span{
+        font-size: 18px;
+        color: #FFFFFF;
+      }
+    }
+    .right-btn{
+      margin-left: 83px;
+    }
+    .isShow{
+      span{
+        color: #6D7278;
+      }
+      background: #F0F0F0;
+    }
+  }
+ 
+}
+
+.app {
+  display: flex;
+  height: 200px;
+  align-items: stretch;
+  .half-area {
+    overflow: hidden;
+    z-index: 99;
+    color: #fff;
+    border: none;
+    .upload-input-label {
+      @include wh(80px,120px);
+      padding: 8px;
+      .base-upload-input {
+        color: #FFFFFF !important;
+        height: 100px;
+        width: 143px;
+        margin-top: 15px;
+        opacity:0
+      }
+    }
+  }
+}
