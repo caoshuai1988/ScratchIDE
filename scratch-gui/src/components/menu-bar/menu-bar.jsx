@@ -155,12 +155,11 @@ class MenuBar extends React.Component {
             'handleLanguageMouseUp',
             'handleRestoreOption',
             'handleSaveToComputer',
+            'handleSaveToComputerServe',
             'restoreOptionMessage'
         ]);
     }
     componentDidMount () {
-        console.log( this.props.className,'-=-=-=-=')
-        console.log( styles.mainMenu,'-=-=-=-=')
         document.addEventListener('keydown', this.handleKeyPress);
     }
     componentWillUnmount () {
@@ -237,6 +236,18 @@ class MenuBar extends React.Component {
             }
         };
     }
+
+    handleSaveToComputerServe(downloadProjectServeCallback) {
+        return () => {
+            this.props.onRequestCloseFile();
+            downloadProjectServeCallback();
+            if (this.props.onProjectTelemetryEvent) {
+                const metadata = collectMetadata(this.props.vm, this.props.projectTitle, this.props.locale);
+                this.props.onProjectTelemetryEvent('projectDidSave', metadata);
+            }
+        };
+    }
+
     handleLanguageMouseUp (e) {
         if (!this.props.languageMenuOpen) {
             this.props.onClickLanguage(e);
@@ -589,12 +600,12 @@ class MenuBar extends React.Component {
                         {this.props.canSave && (
                             <SaveStatus />
                         )}
-                        <SB3Downloader>{(className, downloadProjectCallback) => (
+                        <SB3Downloader>{(className, downloadProjectCallback, downloadProjectServeCallback) => (
                                         <MenuItem
                                             className={className}
-                                            onClick={this.handleSaveToComputer(downloadProjectCallback)}
+                                            onClick={this.handleSaveToComputerServe(downloadProjectServeCallback)}
                                         >
-                                            222写作业
+                                            发布
                                         </MenuItem>
                                     )}</SB3Downloader>
                     </div>

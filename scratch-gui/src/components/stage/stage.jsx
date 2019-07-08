@@ -31,7 +31,6 @@ const StageComponent = props => {
         onQuestionAnswered,
         ...boxProps
     } = props;
-
     const stageDimensions = getStageDimensions(stageSize, isFullScreen);
 
     return (
@@ -82,8 +81,9 @@ const StageComponent = props => {
                 </Box>
                 {isStarted ? null : (
                     <GreenFlagOverlay
-                        className={styles.greenFlagOverlay}
-                        wrapperClass={styles.greenFlagOverlayWrapper}
+                            isFullScreen={isFullScreen}
+                            className={styles.greenFlagOverlay}
+                            wrapperClass={styles.greenFlagOverlayWrapper}
                     />
                 )}
                 {isColorPicking && colorInfo ? (

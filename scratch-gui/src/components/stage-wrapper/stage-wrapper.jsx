@@ -19,10 +19,12 @@ const StageWrapperComponent = function (props) {
         vm,
         player
     } = props;
-    console.log(props,'[][][][][]')
 
     return (
-        <Box
+        //偏左，偏右
+        <Box>
+            {player ? ( <Box
+            style={{position: 'fixed',left: '220px',top: '230px'}}
             className={styles.stageWrapper}
             dir={isRtl ? 'rtl' : 'ltr'}
         >
@@ -32,14 +34,6 @@ const StageWrapperComponent = function (props) {
                     vm={vm}
                 />
             </Box> */}
-            {   player?  []:  
-                (<Box className={styles.stageMenuWrapper}>
-                    <StageHeader
-                        stageSize={stageSize}
-                        vm={vm}
-                    />
-                </Box>)
-            }
 
             <Box className={styles.stageCanvasWrapper}>
                 {
@@ -52,17 +46,49 @@ const StageWrapperComponent = function (props) {
                 }
             </Box>
 
-            {   player?  (<Box className={styles.stageMenuWrapper}>
+            <Box className={styles.stageMenuWrapper}>
                     <StageHeader
                         stageSize={stageSize}
                         vm={vm}
                     />
-                </Box> ): []
-            }
+            </Box>
+
+            {/* 加载动画 */}
             {loading ? (
                 <Loader isFullScreen={isFullScreen} />
             ) : null}
         </Box>
+        ) : ( 
+        <Box
+            className={styles.stageWrapper}
+            dir={isRtl ? 'rtl' : 'ltr'}
+        >
+            <Box className={styles.stageMenuWrapper}>
+                <StageHeader
+                    stageSize={stageSize}
+                    vm={vm}
+                />
+            </Box>
+
+            <Box className={styles.stageCanvasWrapper}>
+                {
+                    isRendererSupported ?
+                        <Stage
+                            stageSize={stageSize}
+                            vm={vm}
+                        /> :
+                        null
+                }
+            </Box>
+
+            {/* 加载动画 */}
+            {loading ? (
+                <Loader isFullScreen={isFullScreen} />
+            ) : null}
+         </Box>)
+        }
+        </Box>
+       
     );
 };
 

@@ -24,6 +24,10 @@ import {
 } from '../reducers/mode';
 
 import {
+    setStartedState
+} from '../reducers/vm-status';
+
+import {
     closeCostumeLibrary,
     closeBackdropLibrary,
     closeTelemetryModal,
@@ -53,15 +57,28 @@ const messages = defineMessages({
 });
 
 class GUI extends React.Component {
+    constructor(props) {
+        super(props)
+    }
     componentDidMount () {
-        console.log('start----');
+        //获取路由参数
+        let urlRouter = location.search;
+        let  theRequest = new Object();
+        if (urlRouter.indexOf("?") != -1) {
+                let strs = urlRouter.substr(1);
+                strs = strs.split("&");
+                for(let i = 0; i < strs.length; i ++) {
+                theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+            }
+        }
+
         setIsScratchDesktop(this.props.isScratchDesktop);
         this.setReduxTitle(this.props.projectTitle);
         this.props.onStorageInit(storage);
         // let url=''
        
         // const url ='https://steam.nosdn.127.net/dac8f13d-6796-4552-9352-ecfdfb21f41c.sb3'
-        const url = './static/assets/Demo.sb3'
+        // const url = './static/assets/Demo.sb3'
 
         // fetch('https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=1&rsv_idx=2&tn=baiduhome_pg&wd=reactx%E4%BD%BF%E7%94%A8&rsv_spt=1&oq=react%2520%25E6%259B%25B4%25E6%2594%25B9%25E5%258F%2598%25E9%2587%258F%25E7%259A%2584%25E5%2580%25BC&rsv_pq=8126e3c00004370e&rsv_t=47efTKT4NTBY5cLWmv%2Bugo7ubkgfFx%2FbnzqJbmzrkMk6B1mu7TcgwLddDbpMqtRhM2%2Bd&rqlang=cn&rsv_enter=1&rsv_sug3=20&rsv_sug1=4&rsv_sug7=100&rsv_sug2=0&inputT=6575&rsv_sug4=7614',{
         //     method:'POST'
@@ -70,8 +87,13 @@ class GUI extends React.Component {
         //     console.log(response)
         //     }
         // )
+        // const url = theRequest.url
+        const url = './static/assets/Demo.sb3'
 
-
+        let falg = true
+        if(theRequest.type ==='3' && theRequest.autoPlay ==='1' ){
+            falg = false
+        }
         if(url !== null && url !=undefined ){
             fetch(url,{
                 method:'GET'
@@ -80,10 +102,9 @@ class GUI extends React.Component {
                 response.blob()
             )
             .then(blob =>{
-                let falg = false
+                this.props.setStartedState(!falg)
                 this.props.setplayeronly(falg)
                 const reader = new FileReader();
-                console.log(reader.result,'reader.resultreader.resultreader.result')
                 reader.onload = () =>this.props.vm.loadProject(reader.result)
                 .then(()=>{
                     analytics.event({
@@ -224,6 +245,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
     setplayeronly: falg => dispatch(setPlayer(falg)),
+    setStartedState: falg => dispatch(setStartedState(falg)),
     onExtensionButtonClick: () => dispatch(openExtensionLibrary()),
     onActivateTab: tab => dispatch(activateTab(tab)),
     onActivateCostumesTab: () => dispatch(activateTab(COSTUMES_TAB_INDEX)),

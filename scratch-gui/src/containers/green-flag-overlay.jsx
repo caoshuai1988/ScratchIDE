@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 import VM from 'scratch-vm';
 import Box from '../components/box/box.jsx';
 import greenFlag from '../components/green-flag/icon--green-flag.svg';
+import { setStartedState } from '../reducers/vm-status';
 
 class GreenFlagOverlay extends React.Component {
     constructor (props) {
@@ -13,18 +14,30 @@ class GreenFlagOverlay extends React.Component {
         bindAll(this, [
             'handleClick'
         ]);
+        this.state = {
+            width:'480px',
+          }
     }
-
+    
+    componentDidMount(){
+        if(!this.props.isFullScreen){
+            this.state.width = '100%'
+        }else{
+            this.state.width = '480px'
+        }
+    }
+    
     handleClick () {
         this.props.vm.start();
         this.props.vm.greenFlag();
+        this.props.setStartedState(true)
     }
-
     render () {
         if (this.props.isStarted) return null;
-
+        
         return (
             <Box
+                style={{width:this.state.width}}
                 className={this.props.wrapperClass}
                 onClick={this.handleClick}
             >
@@ -35,7 +48,6 @@ class GreenFlagOverlay extends React.Component {
                     />
                 </div>
             </Box>
-
         );
     }
 }
@@ -44,7 +56,8 @@ GreenFlagOverlay.propTypes = {
     className: PropTypes.string,
     isStarted: PropTypes.bool,
     vm: PropTypes.instanceOf(VM),
-    wrapperClass: PropTypes.string
+    wrapperClass: PropTypes.string,
+    isFullScreen:PropTypes.bool
 };
 
 const mapStateToProps = state => ({
@@ -52,7 +65,9 @@ const mapStateToProps = state => ({
     vm: state.scratchGui.vm
 });
 
-const mapDispatchToProps = () => ({});
+const mapDispatchToProps = (dispatch) => ({
+    setStartedState: falg => dispatch(setStartedState(falg)),
+});
 
 export default connect(
     mapStateToProps,

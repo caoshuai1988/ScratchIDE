@@ -19,7 +19,6 @@ class DOMElementRenderer extends React.Component {
         this.setContainer = this.setContainer.bind(this);
     }
     componentDidMount () {
-        console.log(this.props.domElement,'this.props.domElementthis.props.domElement')
         this.container.appendChild(this.props.domElement);
     }
     componentWillUnmount () {
