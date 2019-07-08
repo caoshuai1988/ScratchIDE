@@ -90,9 +90,9 @@ class GUI extends React.Component {
         // const url = theRequest.url
         const url = './static/assets/Demo.sb3'
 
-        let falg = true
+        let falg = false
         if(theRequest.type ==='3' && theRequest.autoPlay ==='1' ){
-            falg = false
+            falg = true
         }
         if(url !== null && url !=undefined ){
             fetch(url,{
