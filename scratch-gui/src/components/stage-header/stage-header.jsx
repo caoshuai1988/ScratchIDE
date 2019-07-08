@@ -65,6 +65,7 @@ const StageHeaderComponent = function (props) {
 
     if (isFullScreen) {
         const stageDimensions = getStageDimensions(null, true);
+
         const stageButton = showBranding ? (
             <div className={styles.embedScratchLogo}>
                 <a
@@ -93,6 +94,7 @@ const StageHeaderComponent = function (props) {
                 />
             </Button>
         );
+
         header = (
             <Box className={styles.stageHeaderWrapperOverlay}>
                 <Box
@@ -103,7 +105,8 @@ const StageHeaderComponent = function (props) {
                     {stageButton}
                 </Box>
             </Box>
-        );
+        )
+        
     } else {
         const stageControls =
             isPlayerOnly ? (
