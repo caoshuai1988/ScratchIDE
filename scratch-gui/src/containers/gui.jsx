@@ -19,13 +19,8 @@ import {
     SOUNDS_TAB_INDEX
 } from '../reducers/editor-tab';
 
-import {
-    setPlayer
-} from '../reducers/mode';
-
-import {
-    setStartedState
-} from '../reducers/vm-status';
+import {setPlayer} from '../reducers/mode';
+import {setStartedState} from '../reducers/vm-status';
 
 import {
     closeCostumeLibrary,
@@ -88,9 +83,11 @@ class GUI extends React.Component {
         //     }
         // )
         // const url = theRequest.url
-        const url = './static/assets/Demo.sb3'
-
-        let falg = false
+        // const url = './static/assets/Demo.sb3'
+        // const url = './static/assets/a.sb3'
+        // const url  = '/sb3/a.sb3'
+        const url  = 'http://kejiadmin.qbitai.com/a.sb3'
+        let falg = true
         if(theRequest.type ==='3' && theRequest.autoPlay ==='1' ){
             falg = true
         }
@@ -99,11 +96,11 @@ class GUI extends React.Component {
                 method:'GET'
             })
             .then(response => 
-                response.blob()
+                response.blob() 
             )
             .then(blob =>{
-                this.props.setStartedState(!falg)
-                this.props.setplayeronly(falg)
+                // this.props.setStartedState(!falg)
+                // this.props.setPlayer(!falg)
                 const reader = new FileReader();
                 reader.onload = () =>this.props.vm.loadProject(reader.result)
                 .then(()=>{
@@ -244,8 +241,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-    setplayeronly: falg => dispatch(setPlayer(falg)),
-    setStartedState: falg => dispatch(setStartedState(falg)),
+    // setPlayer: falg => dispatch(setPlayer(falg)),
+    // setStartedState: falg => dispatch(setStartedState(falg)),
     onExtensionButtonClick: () => dispatch(openExtensionLibrary()),
     onActivateTab: tab => dispatch(activateTab(tab)),
     onActivateCostumesTab: () => dispatch(activateTab(COSTUMES_TAB_INDEX)),

@@ -1,5 +1,8 @@
 import $ from './jquery.min.js';
 export default (filename, blob) => {
+    window.open(`http://localhost:3000/#/display`)
+    // ?url=${data.file}&id=${data.id}`
+
     var filedata = ''
     var reader = new FileReader();
     reader.readAsDataURL(blob);
@@ -17,7 +20,7 @@ export default (filename, blob) => {
                 // ''
             }).done(function (res) {
                 let data = $.parseJSON(res)
-                window.open(`http://localhost:3000/#/display?url=${data.file}&id=${data.id}`)
+                // window.open(`http://localhost:3001/#/display?url=${data.file}&id=${data.id}`)
             })
         }  
     }
