@@ -4,7 +4,6 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {projectTitleInitialState} from '../reducers/project-title';
 import downloadBlob from '../lib/download-blob';
-import downloadServe from '../lib/download-serve';
 /**
  * Project saver component passes a downloadProject function to its child.
  * It expects this child to be a function with the signature
@@ -25,7 +24,6 @@ class SB3Downloader extends React.Component {
         super(props);
         bindAll(this, [
             'downloadProject',
-            'downloadProjectServe'
         ]);
     }
     downloadProject () {
@@ -37,19 +35,13 @@ class SB3Downloader extends React.Component {
             downloadBlob(this.props.projectFilename, content);
         });
     }
-    downloadProjectServe () {
-        this.props.saveProjectSb3().then(content => {
-            downloadServe(this.props.projectFilename, content);
-        });
-    }
     render () {
         const {
             children
         } = this.props;
         return children(
             this.props.className,
-            this.downloadProject,
-            this.downloadProjectServe
+            this.downloadProject
         );
     }
 }

@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {detectTutorialId} from './tutorial-from-url';
 
 import {activateDeck} from '../reducers/cards';
-import {openTipsLibrary} from '../reducers/modals';
+// import {openTipsLibrary} from '../reducers/modals';
 
 /* Higher Order Component to get parameters from the URL query string and initialize redux state
  * @param {React.Component} WrappedComponent: component to render
@@ -29,12 +29,12 @@ const QueryParserHOC = function (WrappedComponent) {
         setActiveCards (tutorialId) {
             this.props.onUpdateReduxDeck(tutorialId);
         }
-        openTutorials () {
-            this.props.onOpenTipsLibrary();
-        }
+        // openTutorials () {
+        //     this.props.onOpenTipsLibrary();
+        // }
         render () {
             const {
-                onOpenTipsLibrary, // eslint-disable-line no-unused-vars
+                // onOpenTipsLibrary, // eslint-disable-line no-unused-vars
                 onUpdateReduxDeck, // eslint-disable-line no-unused-vars
                 ...componentProps
             } = this.props;
@@ -46,13 +46,13 @@ const QueryParserHOC = function (WrappedComponent) {
         }
     }
     QueryParserComponent.propTypes = {
-        onOpenTipsLibrary: PropTypes.func,
+        // onOpenTipsLibrary: PropTypes.func,
         onUpdateReduxDeck: PropTypes.func
     };
     const mapDispatchToProps = dispatch => ({
-        onOpenTipsLibrary: () => {
-            dispatch(openTipsLibrary());
-        },
+        // onOpenTipsLibrary: () => {
+        //     dispatch(openTipsLibrary());
+        // },
         onUpdateReduxDeck: tutorialId => {
             dispatch(activateDeck(tutorialId));
         }

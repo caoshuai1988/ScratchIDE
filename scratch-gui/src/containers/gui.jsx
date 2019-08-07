@@ -45,7 +45,7 @@ import {setIsScratchDesktop} from '../lib/isScratchDesktop.js';
 
 const messages = defineMessages({
     defaultProjectTitle: {
-        id: 'gui.gui.defaultProjectTitle',
+        id: 'gui.gui.defaultProjectTitle', // Scratch作品
         description: 'Default title for project',
         defaultMessage: 'Scratch Project'
     }
@@ -67,11 +67,10 @@ class GUI extends React.Component {
             }
         }
 
-        setIsScratchDesktop(this.props.isScratchDesktop);
-        this.setReduxTitle(this.props.projectTitle);
-        this.props.onStorageInit(storage);
+        setIsScratchDesktop(this.props.isScratchDesktop); // 设置是否在桌面下运行
+        this.setReduxTitle(this.props.projectTitle); // 更新redux里面的项目title
+        this.props.onStorageInit(storage); // 初始化作品存储加载
         // let url=''
-       
         // const url ='https://steam.nosdn.127.net/dac8f13d-6796-4552-9352-ecfdfb21f41c.sb3'
         // const url = './static/assets/Demo.sb3'
 
@@ -84,9 +83,9 @@ class GUI extends React.Component {
         // )
         // const url = theRequest.url
         // const url = './static/assets/Demo.sb3'
-        // const url = './static/assets/a.sb3'
+        const url = './static/assets/a.sb3'
         // const url  = '/sb3/a.sb3'
-        const url  = 'http://kejiadmin.qbitai.com/a.sb3'
+        // const url  = 'http://kejiide.qbitai.com/cors/a.sb3'
         let falg = true
         if(theRequest.type ==='3' && theRequest.autoPlay ==='1' ){
             falg = true
@@ -102,7 +101,7 @@ class GUI extends React.Component {
                 // this.props.setStartedState(!falg)
                 // this.props.setPlayer(!falg)
                 const reader = new FileReader();
-                reader.onload = () =>this.props.vm.loadProject(reader.result)
+                reader.onload = () =>this.props.vm.loadProject(reader.result) //读取本地sb3文件
                 .then(()=>{
                     analytics.event({
                         category:'project',
@@ -110,7 +109,6 @@ class GUI extends React.Component {
                         nonInteraction:true
                     })
                 })
-
                 reader.readAsArrayBuffer(blob)
             })
             .catch(error =>{
@@ -217,7 +215,7 @@ const mapStateToProps = state => {
         alertsVisible: state.scratchGui.alerts.visible,
         backdropLibraryVisible: state.scratchGui.modals.backdropLibrary,
         blocksTabVisible: state.scratchGui.editorTab.activeTabIndex === BLOCKS_TAB_INDEX,
-        cardsVisible: state.scratchGui.cards.visible,
+        // cardsVisible: state.scratchGui.cards.visible,
         connectionModalVisible: state.scratchGui.modals.connectionModal,
         costumeLibraryVisible: state.scratchGui.modals.costumeLibrary,
         costumesTabVisible: state.scratchGui.editorTab.activeTabIndex === COSTUMES_TAB_INDEX,
@@ -235,7 +233,7 @@ const mapStateToProps = state => {
             state.scratchGui.targets.stage.id === state.scratchGui.targets.editingTarget
         ),
         telemetryModalVisible: state.scratchGui.modals.telemetryModal,
-        tipsLibraryVisible: state.scratchGui.modals.tipsLibrary,
+        // tipsLibraryVisible: state.scratchGui.modals.tipsLibrary,
         vm: state.scratchGui.vm
     };
 };

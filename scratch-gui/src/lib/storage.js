@@ -1,4 +1,4 @@
-import ScratchStorage from 'scratch-storage';
+import ScratchStorage from 'scratch-storage'; // 作品存储加载
 
 import defaultProject from './default-project';
 

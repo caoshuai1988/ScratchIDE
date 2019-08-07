@@ -13,9 +13,9 @@ import {
     endDrag
 } from '../reducers/cards';
 
-import {
-    openTipsLibrary
-} from '../reducers/modals';
+// import {
+//     openTipsLibrary
+// } from '../reducers/modals';
 
 import CardsComponent from '../components/cards/cards.jsx';
 import {loadImageData} from '../lib/libraries/decks/translate-image.js';
@@ -60,8 +60,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     onActivateDeckFactory: id => () => dispatch(activateDeck(id)),
     onShowAll: () => {
-        dispatch(openTipsLibrary());
-        dispatch(closeCards());
+        // dispatch(openTipsLibrary());
+        // dispatch(closeCards());
     },
     onCloseCards: () => dispatch(closeCards()),
     onShrinkExpandCards: () => dispatch(shrinkExpandCards()),

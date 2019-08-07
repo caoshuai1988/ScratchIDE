@@ -17,6 +17,7 @@ import {setRestore} from '../reducers/restore-deletion';
  *         {...props}
  *     />
  * )}</DeletionRestorer>
+ * 还原恢复作品组件
  */
 class DeletionRestorer extends React.Component {
     constructor (props) {
@@ -25,10 +26,15 @@ class DeletionRestorer extends React.Component {
             'restoreDeletion'
         ]);
     }
+    componentDidMount(){
+        console.log(JSON.stringify(this.props))
+    }
     restoreDeletion () {
         if (typeof this.props.restore === 'function') {
             this.props.restore();
             this.props.dispatchUpdateRestore({restoreFun: null, deletedItem: ''});
+        }else if(this.props.reset) {
+            window.location.reload()
         }
     }
     render () {

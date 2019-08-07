@@ -21,7 +21,7 @@ export default defineMessages({
         description: 'Name of the pop sound, the default sound added to a sprite',
         id: 'gui.sharedMessages.pop'
     },
-    replaceProjectWarning: {
+    replaceProjectWarning: { // 是否丢弃当前作品中尚未保存的内容？
         id: 'gui.sharedMessages.replaceProjectWarning',
         defaultMessage: 'Replace contents of the current project?',
         description: 'Confirmation that user wants to overwrite the current project contents'

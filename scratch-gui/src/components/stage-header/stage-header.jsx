@@ -65,7 +65,6 @@ const StageHeaderComponent = function (props) {
 
     if (isFullScreen) {
         const stageDimensions = getStageDimensions(null, true);
-
         const stageButton = showBranding ? (
             <div className={styles.embedScratchLogo}>
                 <a
@@ -94,7 +93,6 @@ const StageHeaderComponent = function (props) {
                 />
             </Button>
         );
-
         header = (
             <Box className={styles.stageHeaderWrapperOverlay}>
                 <Box
@@ -105,8 +103,7 @@ const StageHeaderComponent = function (props) {
                     {stageButton}
                 </Box>
             </Box>
-        )
-        
+        );
     } else {
         const stageControls =
             isPlayerOnly ? (
@@ -150,27 +147,26 @@ const StageHeaderComponent = function (props) {
                 </div>
             );
         header = (
-            <Box className={styles.stageHeaderWrapper } style={{width:'480px'}}>
+            <Box className={styles.stageHeaderWrapper}>
                 <Box className={styles.stageMenuWrapper}>
                     <Controls vm={vm} />
-                    {/* <div className={styles.stageSizeRow}>
+                    <div className={styles.stageSizeRow}>
                         {stageControls}
                         <div>
-                            
+                            <Button
+                                className={styles.stageButton}
+                                onClick={onSetStageFull}
+                            >
+                                <img
+                                    alt={props.intl.formatMessage(messages.fullStageSizeMessage)}
+                                    className={styles.stageButtonIcon}
+                                    draggable={false}
+                                    src={fullScreenIcon}
+                                    title={props.intl.formatMessage(messages.fullscreenControl)}
+                                />
+                            </Button>
                         </div>
-                    </div> */}
-                    <Button
-                        className={styles.stageButton}
-                        onClick={onSetStageFull}
-                    >
-                        <img
-                            alt={props.intl.formatMessage(messages.fullStageSizeMessage)}
-                            className={styles.stageButtonIcon}
-                            draggable={false}
-                            src={fullScreenIcon}
-                            title={props.intl.formatMessage(messages.fullscreenControl)}
-                        />
-                    </Button>
+                    </div>
                 </Box>
             </Box>
         );

@@ -6,15 +6,15 @@
 const collectMetadata = function (vm, projectName = '', locale = '') {
     // TODO move most or all of this into a collectMetadata() method on the VM/Runtime
     const metadata = {
-        projectName: projectName,
-        language: locale,
-        spriteCount: 0,
-        blocksCount: 0,
-        costumesCount: 0,
-        listsCount: 0,
-        scriptCount: 0,
-        soundsCount: 0,
-        variablesCount: 0
+        projectName: projectName, //项目名称
+        language: locale, //语言
+        spriteCount: 0, //精灵
+        blocksCount: 0, //积木
+        costumesCount: 0, //衣服
+        listsCount: 0, //列表
+        scriptCount: 0, //脚本
+        soundsCount: 0, //音效
+        variablesCount: 0 //变量
     };
 
     for (const target of vm.runtime.targets) {
