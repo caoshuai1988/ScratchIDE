@@ -47,7 +47,7 @@ const messages = defineMessages({
     defaultProjectTitle: {
         id: 'gui.gui.defaultProjectTitle', // Scratch作品
         description: 'Default title for project',
-        defaultMessage: 'Scratch Project'
+        defaultMessage: 'Scratch Project' // Scratch 默认title
     }
 });
 

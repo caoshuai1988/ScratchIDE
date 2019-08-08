@@ -29,6 +29,7 @@ class ExtensionLibrary extends React.PureComponent {
             'handleItemSelect'
         ]);
     }
+
     handleItemSelect (item) {
         const id = item.extensionId;
         let url = item.extensionURL ? item.extensionURL : id;

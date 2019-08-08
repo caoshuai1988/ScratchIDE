@@ -12,6 +12,7 @@ const MODAL_SPRITE_LIBRARY = 'spriteLibrary';
 const MODAL_SOUND_RECORDER = 'soundRecorder';
 const MODAL_CONNECTION = 'connectionModal';
 // const MODAL_TIPS_LIBRARY = 'tipsLibrary';
+const MODAL_CLOUD_LIBRARY = 'cloudLibrary';
 
 const initialState = {
     [MODAL_BACKDROP_LIBRARY]: false,
@@ -25,6 +26,7 @@ const initialState = {
     [MODAL_SOUND_RECORDER]: false,
     [MODAL_CONNECTION]: false,
     // [MODAL_TIPS_LIBRARY]: false
+    [MODAL_CLOUD_LIBRARY]: false
 };
 
 const reducer = function (state, action) {
@@ -87,6 +89,16 @@ const openConnectionModal = function () {
 // const openTipsLibrary = function () {
 //     return openModal(MODAL_TIPS_LIBRARY);
 // };
+
+const openCloudLibrary = function () {
+    console.log("进来...")
+    return openModal(MODAL_CLOUD_LIBRARY)
+}
+
+const closeCloudLibrary = function () {
+    return closeModal(MODAL_CLOUD_LIBRARY)
+}
+
 const closeBackdropLibrary = function () {
     return closeModal(MODAL_BACKDROP_LIBRARY);
 };
@@ -133,6 +145,8 @@ export {
     openSoundRecorder,
     openTelemetryModal,
     // openTipsLibrary,
+    openCloudLibrary,
+
     openConnectionModal,
     closeBackdropLibrary,
     closeCameraCapture,
@@ -144,5 +158,7 @@ export {
     closeSoundRecorder,
     closeTelemetryModal,
     // closeTipsLibrary,
+    closeCloudLibrary,
+
     closeConnectionModal
 };

@@ -11,6 +11,7 @@ import log from '../lib/log.js';
 import Prompt from './prompt.jsx';
 import BlocksComponent from '../components/blocks/blocks.jsx';
 import ExtensionLibrary from './extension-library.jsx';
+import CloudLibrary from './cloud-library.jsx'; // 云端作品库
 import extensionData from '../lib/libraries/extensions/index.jsx';
 import CustomProcedures from './custom-procedures.jsx';
 import errorBoundaryHOC from '../lib/error-boundary-hoc.jsx';
@@ -21,7 +22,7 @@ import DragConstants from '../lib/drag-constants';
 import {connect} from 'react-redux';
 import {updateToolbox} from '../reducers/toolbox';
 import {activateColorPicker} from '../reducers/color-picker';
-import {closeExtensionLibrary, openSoundRecorder, openConnectionModal} from '../reducers/modals';
+import {closeExtensionLibrary, openSoundRecorder, openConnectionModal, closeCloudLibrary} from '../reducers/modals';
 import {activateCustomProcedures, deactivateCustomProcedures} from '../reducers/custom-procedures';
 import {setConnectionModalExtensionId} from '../reducers/connection-modal';
 
@@ -141,6 +142,7 @@ class Blocks extends React.Component {
             this.props.isVisible !== nextProps.isVisible ||
             this._renderedToolboxXML !== nextProps.toolboxXML ||
             this.props.extensionLibraryVisible !== nextProps.extensionLibraryVisible ||
+            this.props.cloudLibraryVisible !== nextProps.cloudLibraryVisible || 
             this.props.customProceduresVisible !== nextProps.customProceduresVisible ||
             this.props.locale !== nextProps.locale ||
             this.props.anyModalVisible !== nextProps.anyModalVisible ||
@@ -481,6 +483,7 @@ class Blocks extends React.Component {
             canUseCloud,
             customProceduresVisible,
             extensionLibraryVisible,
+            cloudLibraryVisible,
             options,
             stageSize,
             vm,
@@ -492,6 +495,7 @@ class Blocks extends React.Component {
             updateToolboxState,
             onActivateCustomProcedures,
             onRequestCloseExtensionLibrary,
+            onRequestCloseCloudLibrary,
             onRequestCloseCustomProcedures,
             toolboxXML,
             ...props
@@ -524,6 +528,12 @@ class Blocks extends React.Component {
                         onRequestClose={onRequestCloseExtensionLibrary}
                     />
                 ) : null}
+                {cloudLibraryVisible ? (
+                    <CloudLibrary
+                        vm={vm}
+                        onRequestClose= {onRequestCloseCloudLibrary}
+                    />
+                ) : null}
                 {customProceduresVisible ? (
                     <CustomProcedures
                         options={{
@@ -542,6 +552,7 @@ Blocks.propTypes = {
     canUseCloud: PropTypes.bool,
     customProceduresVisible: PropTypes.bool,
     extensionLibraryVisible: PropTypes.bool,
+    cloudLibraryVisible: PropTypes.bool,
     isRtl: PropTypes.bool,
     isVisible: PropTypes.bool,
     locale: PropTypes.string.isRequired,
@@ -552,6 +563,7 @@ Blocks.propTypes = {
     onOpenSoundRecorder: PropTypes.func,
     onRequestCloseCustomProcedures: PropTypes.func,
     onRequestCloseExtensionLibrary: PropTypes.func,
+    onRequestCloseCloudLibrary: PropTypes.func,
     options: PropTypes.shape({
         media: PropTypes.string,
         zoom: PropTypes.shape({
@@ -619,6 +631,7 @@ const mapStateToProps = state => ({
         state.scratchGui.mode.isFullScreen
     ),
     extensionLibraryVisible: state.scratchGui.modals.extensionLibrary,
+    cloudLibraryVisible: state.scratchGui.modals.cloudLibrary,
     isRtl: state.locales.isRtl,
     locale: state.locales.locale,
     messages: state.locales.messages,
@@ -639,6 +652,9 @@ const mapDispatchToProps = dispatch => ({
     },
     onRequestCloseExtensionLibrary: () => {
         dispatch(closeExtensionLibrary());
+    },
+    onRequestCloseCloudLibrary: () => {
+        dispatch(closeCloudLibrary()) //关闭云端作品Modal
     },
     onRequestCloseCustomProcedures: data => {
         dispatch(deactivateCustomProcedures(data));

@@ -24,7 +24,7 @@ class SaveCloud extends React.Component {
         } = this.props;
         return children(
             this.props.className,
-            this.downloadProjectServe
+            this.saveProjectCloud
         );
     }
 }

@@ -31,7 +31,7 @@ import DeletionRestorer from '../../containers/deletion-restorer.jsx';
 import TurboMode from '../../containers/turbo-mode.jsx';
 import MenuBarHOC from '../../containers/menu-bar-hoc.jsx';
 
-// import {openTipsLibrary} from '../../reducers/modals';
+import {openCloudLibrary} from '../../reducers/modals';
 import {setPlayer} from '../../reducers/mode';
 import {
     autoUpdateProject,
@@ -514,7 +514,7 @@ class MenuBar extends React.Component {
                                         {(className, renderFileModal, loadProject) => (
                                             <MenuItem
                                                 className={className}
-                                                onClick={loadProject}
+                                                onClick={this.props.onCloudModalButtonClick}
                                             >
                                             <span>从云端加载</span>
                                             {renderFileModal()}
@@ -923,7 +923,8 @@ const mapDispatchToProps = dispatch => ({
     onClickRemix: () => dispatch(remixProject()),
     onClickSave: () => dispatch(manualUpdateProject()),
     onClickSaveAsCopy: () => dispatch(saveProjectAsCopy()),
-    onSeeCommunity: () => dispatch(setPlayer(true))
+    onSeeCommunity: () => dispatch(setPlayer(true)),
+    onCloudModalButtonClick: () => dispatch(openCloudLibrary()),
 });
 
 export default compose(
