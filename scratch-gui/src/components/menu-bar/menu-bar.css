@@ -178,6 +178,7 @@
     align-items: center;
 }
 
+
 .profile-icon {
     margin: 0 .25rem;
     width: $menu-bar-button-size;
@@ -227,4 +228,21 @@
     border-radius: 4px;
     height: 32px;
     text-align: center;
+}
+
+.kjAccountMenu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 0;
+    width: 96px;
+    height: 32px;
+    margin-right: 44px;
+    border-radius: 16px;
+    background: rgba(27,59,171,1);
+}
+.kjProfileIcon {
+    margin-right: .5rem;
+    width: 1.5rem;
+    border-radius: 1rem;
 }

@@ -31,7 +31,7 @@ import DeletionRestorer from '../../containers/deletion-restorer.jsx';
 import TurboMode from '../../containers/turbo-mode.jsx';
 import MenuBarHOC from '../../containers/menu-bar-hoc.jsx';
 
-import {openCloudLibrary} from '../../reducers/modals';
+import {openCloudLibrary, openMaskLibrary} from '../../reducers/modals';
 import {setPlayer} from '../../reducers/mode';
 import {
     autoUpdateProject,
@@ -65,13 +65,11 @@ import collectMetadata from '../../lib/collect-metadata';
 import styles from './menu-bar.css';
 
 import mystuffIcon from './icon--mystuff.png';
-import profileIcon from './icon--profile.png';
 import remixIcon from './icon--remix.svg';
 import dropdownCaret from './dropdown-caret.svg';
 // import languageIcon from '../language-selector/language-icon.svg';
 import language_zh from '../language-selector/icon_lang_zh.png';
 import language_en from '../language-selector/icon_lang_en.png';
-// import scratchLogo from './scratch-logo.svg';
 import scratchLogo from './logo.png'
 
 import sharedMessages from '../../lib/shared-messages';
@@ -113,8 +111,7 @@ const MenuBarItemTooltip = ({
             {children}
         </ComingSoonTooltip>
     );
-};
-
+}
 
 MenuBarItemTooltip.propTypes = {
     children: PropTypes.node,
@@ -162,9 +159,9 @@ class MenuBar extends React.Component {
         ]);
         this.state = {
             userInfo : {
-                username: '小小柯',
-                operate: 'Free', //自由创作 ->继续
-                avatar: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAMAAAANIilAAAAC9FBMVEUAAACOj4+Tj5WUkJWQj5GYlJqRj5KRkJKRkJGYjZuYjZqRkJGkm5+TjpWSkJSSj5SZkJ2YjpqRgpz+27H92a3zx6TyyJ//wJzryrj6167/z6T92bH9vpbGqKb2vZuZi52Sj5Sai5+XjpiXjZqPj5CYjJv//tahiaeUjpWVjZaTSg2fiqWeiqOgiaaciqH//9n/x6D/0rePSA6RjpP/yaOPkJOih6iKRwz++9P/1Lv/17ukiar9upiOQBOSRwz+z7P42LH+2L+fg6iRkZujhK30z6T+sI//1rf9y66URBaORQf84sr93rf72bT+tpeZShOIQw7//9/978z81679waebg6OhTRuZTheGQQb10quWiJv8q4ycgX389cv+6cf/0Kn61qbvzaOYiJ6bkpiRipXx08bAp7umlKWlj5WXi43+oYTko3/+z1+oWDKJPBD+/unr7Onm5OH++M/26MX+3MPJtsD43rz60Ln8x6majJr8rpj+s5K4hYH6mX3inXf+wFhYOCD+/vf39O7RvrvryLrw2bPStK+miK38vKH8wJ7vw5z95pqsi433gm36v2f4slO9aka8VC6qTyaCOwvZ3NzVyM3Lv8fZxr72yrm1oLnJsbXywq60oK6upZ/ktpn6p4b3w4DCi3/Bk3PPiGvgiV6/b1uYblN1SUVkQDOdUydKLBP28dnt2c/gxMXfz8P+67/+477z5brFvreskbHu06z7taD5z5ftvpbGopKPio/cqY3qrozrm4ishYX91Hi+d2q0iWnCfE6vYTiiUBLi2dbk0dD02srz0r7o0rr987e9sLKrlbDcxK7jsqn85Ke1rKa4n6XytJeuoJGgj4XTnX+qc2vrj2bHhGGtZ1jucVeEZkyrXkS8aT6KPCvYu8CrirP7wZe2jJG0kIzQhYXJnHy6e3nXk3bTcE2YX0r3kEh2VjugRjDfvuv65OXtsXKPem2sfVu2YlfbdlSlZjTeTjCtORtlEQrNruTmttmrn6uXY2ibLR8OUC98AAAAH3RSTlMA/u9HohXDP8fFo3EYs995P3L+5sdGwsKzoKB5eXBwvUlOpAAACSVJREFUSMeM0+tPUnEYB3AOkrHZZesf8ASHjUOXcYAzhuMcxliHS43DGgEDNltQQQ7CrYYpNkzntOGGaNkqdWma2uWFm8s0521dZjVTa5pa616rF9Vab3rVcw7a7N73BePNh+fyexD8ITnrReJ1QgQRrhOL1ucI/j+r8nIR7IcguXmr/ouuXotgCORnv3b1v2kutuRQlFzOks/9O18jCocRhAw8PwdJDA2lAnITiqJqCMlx0Zo/2xxh2H+NDJ1rf7NYH8lkIpGFuYf+IybOo1ku/OPu8rCwHwskOurHWdoGoRUsy3YvPAzzWs41gCF5v7cisOHnwxHa49FqHVqISgU/wWbmhgImwHx9aP137yNGML//+Ztxj1YF0X6PYnw88jBkAsxrkhT/+mpimMif6GBtipVRqRRah412fUqZ5JDs6OJfe0bIax1pl22Fo1W0wj3OOhwO2tXxzCTHg0H1NahOin7aFbytfCZC0/RyQVah0oJnWatV5XBQmVcBHG9uDkwGgKt/2FoOgoRDoVcuj0LlgHLwqXW7FZ6GBocj2hClrFTUOheSBiubJq4EJFzzOStuQ4hhqVBq0aNVKBwOrccG3N3d3W11j6XTY928XkiZgpV7myoneuVQW7hmxcBYGDcNsx6VglaoPn9W2WhY0mgR5OjRB+1pK0VFIwlpsOlQvOr2RBCFiL7fM4aRGBlIe7Q0TGkbVRbNphcXR48qCwsH5uc7R9rax6zR9y+enL5lNJurqvfzevnOczFSjZpSEQ83Lm07v2O35qleryzUaDSDLweutgy0DI5FMy8u7TQYCLO5OhDEYezc5cIkiaKmhAuwG/Y0OvLxamEhRzVKTeHxtpG2FuNR65eOs5d0NYaC6iNBCeDl0msxTJ3FlNXldlHvOkeeapR8NMqiTn/ztL/fMpoZ3nD4kNNQtT8oleA43Mta/i4RsICHXA2U22WlIoPbuJJZPDUyGYsVN063vK5/BZg4VCnzSiWgofYq/r+khm94FrspdvZlW1uRXpnNYH/vTHPxsdjd1/Uv7lw+ZN5+2OuVSaW8zuPWxdWVy02JTAO8p7W7c2ayeeaBXsN3XTLZ1ZOcrqi4WXS+9N5eo277hFd2hNdyfmXIEk7Vc5h929wYizVWH4d1gbf0dyV75mMV252tB/p0BcabZ7MYOkdRuEyMx7gplI5SlHVhurj4pN/fe0tZW6vU62tbvnb1vCs+aCRKy+2Eznhpvzc/XyaTAJbLcwTr1VBWjkuk+cPvH1NjD3obGz/09Ly7q9FzsevPdfXMXzRaCHu5k7AYb+z3btyYL8vubL1AtIxlzz49flx0pilW/CGZTLbV2ssYpqyszDf7caBEX2Kw98VLauInN28FnJ+dWiQQoyhYDocScx1n4rcrjj3rSibb7QxTauk74GPK7Ham1kKcqTI6a07t27UJdBbjYsE6DkukUqnMe7/P5ywwbK84cSHZ2cr4DjjjpXXlTNngdXuJIf7ksrmmpurOlk2bAcPOJFJ8nUDIYwngPfdLD9h1hFN38+VsK8P4yuvqHtW16nX9rzUW4tTlW4TT+WTLlk1QemlqoYAEjAOWybyAfUSBodautzM+hgFcPjV170b/lNlA7N1bQFji+3Yt4Xx+4d8aLZPQJsIwDIvLIRH3fY1RnCiTGIMSJhPByZCYQGYOzZhDlMQk0FQkEE00bthgNVYbTBBsbWrRgMUKahdbK0ipF1fU4kELHkRvKi4HccWL7/9PRhTX7zwP7/u93zf//49aRVomrg3xuvsbt/gcjrVr9u5dt3HjmvW7Wm82POg898LHr91+3m9z8LV3RRPLIrNqZLBN4MWADca6+5fX2xyOXWREZx4duH68ZXPnx4/XeJsrzWTXOrZfFE0aTHyPRmAqvNtgNMbr2lpdkPbtWr3p1NnOzs4nXz8cO3PSwQesTCbkdSVEO2BWgydiVGgZsAHKK4Ls3bZah8Nhw28fevji1fvHR/e4eAdYhuuVD/YBtljMZtI0YN2osVUYwkYzawmKO/xemw20l7et9flsvNfmZ0hx2UNuu92OvAFTZf2oSYCR9lKD0UBgk9h3w+8CjkL7PO9y+TkizFjDXX2iU1VW93vSqDGLltP9gvIKs8VkAt1ywe/fznu9PA/x1ovnwRKcYw5Q2yxgahuH9yKwmDOFWcB20V3e0XzjQq3L5ju8bt3gIISBBgJhpsv9E0wOg2UqDFqFnY2i++nTcuLQno1btmx5XF9jZbhMxB/hMmVNmaatAzwek0LPqjLx7WxsdD9NNF+/+njf6dMjz/M1DBPIZyOB85iU3WQCTNNeMgXwODUwqmymsNud2NaQSmXqO0Y6OpoYq5WLEHiH2+1UR4WwsWHj6NFL13M3kVaVxb5t+1M1VmsgH+vPkLTS2f6eCGUprP4ZE9RDn/heCmkSt8Vkt4stKVgFVINCwxzX258F2+gkrrX1nFy9buhfpcEmsfE6ZSmPulMIZ/oThHXCl/ZX6bSLTh20NqxgmUxWlU7fCVu7h8Ppe3awVBgwUE0YpV/8XRraweaUykJ0aGio0B0Ic7edbieFWbLZgPU/XO6gd1OYZYPlrTVMmAPLFZLJZC43NBwIZ9pFygKmcZHLXasx8F3dUHOwJcWEe9MqW3pZAt0dibQF0TCirnb800NwCmyrXcdZxJXJp+E5mRze9/5lMleUIt0nROjSORkAT9E4re1qZvFyg5XL5rHQheRww5vBl7lcUenp6XJa6GZSYTT8c+lgHHTc2JyyckIvRlQoNHx67SrmSkVFkmrbg+QMoazu1+ejToO5cKC/N50WRm7tf/35WalUqgiy5E8EETRgsL979OsBo75cygtNQrc08u5k7ZvWSrFUjHoqUX9b0EzgXz1rqdHQptYd9F0RJNkT7Rg8+a5SqXiyA8WByIEVkIXpKX9+rIPe0L5zPYGl6Nto/TFP1CPI0QGl5wQbh+U/P9axLXpcHG384SuCLCsDUeltvRALyYonJPd01QHWYzf+UpN1S+/xR5oESRKiijLg8YSUUCwkyLfb40Yd3ee/47O9TU2yLAhCKBbzhDyxWEhSNh2aOuHfKDW/cKYggAKLEmRl08pZCzCf/64Z8+ZMnzZNUaZNmz53/ow/fPQNP1x4xATqBIcAAAAASUVORK5CYII',
+                // username: this.props.userInfo.nickname,
+                // avatar: this.props.userInfo.avatar
+                // operate: 'Free', //自由创作 ->继续
             }
         }
     }
@@ -178,12 +175,6 @@ class MenuBar extends React.Component {
         document.removeEventListener('keydown', this.handleKeyPress);
     }
     handleClickNew () {
-        // if the project is dirty, and user owns the project, we will autosave.
-        // but if they are not logged in and can't save, user should consider
-        // downloading or logging in first.
-        // Note that if user is logged in and editing someone else's project,
-        // they'll lose their work.
-
         /* 当前作品变动 会提示是否放弃当前作品 */
         const readyToReplaceProject = this.props.confirmReadyToReplaceProject(
             this.props.intl.formatMessage(sharedMessages.replaceProjectWarning)
@@ -399,10 +390,6 @@ class MenuBar extends React.Component {
                     <div className={styles.fileGroup}>
                         {/* 头部最左边的图片 */}
                         <div className={classNames(styles.menuBarItem)}>
-                        {/* gui_menu-bar-position_3U1T0 menu-bar_menu-bar_JcuHF box_box_2jjDp */}
-                            {/* const onClickLogo = () => {
-                                window.location = 'https://scratch.mit.edu';
-                            }; */}
                             <img
                                 alt="柯基编程"
                                 className={classNames(styles.scratchLogo, {
@@ -681,11 +668,11 @@ class MenuBar extends React.Component {
                         {this.props.canSave && (
                             <SaveStatus />
                         )}
-                        <SB3Downloader>{(className, downloadProjectCallback, downloadProjectServeCallback) => (
+                        <SB3Downloader>{(className) => (
                             <MenuItem
-                                // className={className}
                                 className={classNames(styles.operateBtn, className)}
-                                onClick={this.handleSaveToCloud(downloadProjectServeCallback)}
+                                onClick={this.props.onMaskModalButtonClick}
+                                // onClick={this.handleSaveToCloud(downloadProjectServeCallback)}
                             >
                                 {this.workOptionMessage('Submit')}
                             </MenuItem>
@@ -771,44 +758,25 @@ class MenuBar extends React.Component {
                         <React.Fragment>
                             {this.props.showComingSoon ? (
                                 <React.Fragment>
-                                    <MenuBarItemTooltip id="mystuff">
-                                        <div
-                                            className={classNames(
-                                                styles.menuBarItem,
-                                                styles.hoverable,
-                                                styles.mystuffButton
-                                            )}
-                                        >
-                                            <img
-                                                className={styles.mystuffIcon}
-                                                src={mystuffIcon}
-                                            />
-                                        </div>
-                                    </MenuBarItemTooltip>
-                                    <MenuBarItemTooltip
-                                        id="account-nav"
-                                        place={this.props.isRtl ? 'right' : 'left'}
+                                    <div
+                                        className={classNames(
+                                            styles.menuBarItem,
+                                            styles.hoverable,
+                                            styles.accountNavMenu,
+                                            styles.kjAccountMenu
+                                        )}
                                     >
-                                        <div
+                                        <img
                                             className={classNames(
-                                                styles.menuBarItem,
-                                                styles.hoverable,
-                                                styles.accountNavMenu
-                                            )}
-                                        >
-                                            <img
-                                                className={styles.profileIcon}
-                                                src={profileIcon}
-                                            />
-                                            <span>
-                                                {'scratch-cat'}
-                                            </span>
-                                            <img
-                                                className={styles.dropdownCaretIcon}
-                                                src={dropdownCaret}
-                                            />
-                                        </div>
-                                    </MenuBarItemTooltip>
+                                                styles.profileIcon,
+                                                styles.kjProfileIcon)}
+                                            src="https://imgsa.baidu.com/forum/w%3D580%3B/sign=506afc2e05087bf47dec57e1c2e8552c/f7246b600c338744a607ec19560fd9f9d62aa091.jpg"
+                                            // src={this.props.userInfo? this.props.userInfo.avatar: null}
+                                        />
+                                        <span>
+                                            {this.props.userInfo? this.props.userInfo.nickname: ''}
+                                        </span>
+                                    </div>
                                 </React.Fragment>
                             ) : []}
                         </React.Fragment>
@@ -876,6 +844,7 @@ MenuBar.propTypes = {
     username: PropTypes.string,
     vm: PropTypes.instanceOf(VM).isRequired,
     currentLocale: PropTypes.string.isRequired,
+    userInfo: PropTypes.object
 };
 
 MenuBar.defaultProps = {
@@ -883,6 +852,7 @@ MenuBar.defaultProps = {
 };
 
 const mapStateToProps = (state, ownProps) => {
+    // console.log("AAAA:"+JSON.stringify(state.scratchGui.userInfo))
     const loadingState = state.scratchGui.projectState.loadingState;
     const user = state.session && state.session.session && state.session.session.user;
     return {
@@ -901,8 +871,9 @@ const mapStateToProps = (state, ownProps) => {
         userOwnsProject: ownProps.authorUsername && user &&
             (ownProps.authorUsername === user.username),
         vm: state.scratchGui.vm,
-        operateWork: state.scratchGui.operateWork. operateItem, //操作作品
+        operateWork: state.scratchGui.operateWork.operateItem, //操作作品
         currentLocale: state.locales.locale, //当前语言
+        userInfo: state.scratchGui.userInfo
     };
 };
 
@@ -925,6 +896,8 @@ const mapDispatchToProps = dispatch => ({
     onClickSaveAsCopy: () => dispatch(saveProjectAsCopy()),
     onSeeCommunity: () => dispatch(setPlayer(true)),
     onCloudModalButtonClick: () => dispatch(openCloudLibrary()),
+    onMaskModalButtonClick: () => dispatch(openMaskLibrary()),
+    
 });
 
 export default compose(

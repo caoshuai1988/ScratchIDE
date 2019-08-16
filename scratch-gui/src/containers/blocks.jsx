@@ -12,6 +12,7 @@ import Prompt from './prompt.jsx';
 import BlocksComponent from '../components/blocks/blocks.jsx';
 import ExtensionLibrary from './extension-library.jsx';
 import CloudLibrary from './cloud-library.jsx'; // 云端作品库
+import MaskLibrary from './mask-library.jsx'; //非全屏modal库
 import extensionData from '../lib/libraries/extensions/index.jsx';
 import CustomProcedures from './custom-procedures.jsx';
 import errorBoundaryHOC from '../lib/error-boundary-hoc.jsx';
@@ -22,7 +23,7 @@ import DragConstants from '../lib/drag-constants';
 import {connect} from 'react-redux';
 import {updateToolbox} from '../reducers/toolbox';
 import {activateColorPicker} from '../reducers/color-picker';
-import {closeExtensionLibrary, openSoundRecorder, openConnectionModal, closeCloudLibrary} from '../reducers/modals';
+import {closeExtensionLibrary, openSoundRecorder, openConnectionModal, closeCloudLibrary, closeMaskLibrary} from '../reducers/modals';
 import {activateCustomProcedures, deactivateCustomProcedures} from '../reducers/custom-procedures';
 import {setConnectionModalExtensionId} from '../reducers/connection-modal';
 
@@ -143,6 +144,7 @@ class Blocks extends React.Component {
             this._renderedToolboxXML !== nextProps.toolboxXML ||
             this.props.extensionLibraryVisible !== nextProps.extensionLibraryVisible ||
             this.props.cloudLibraryVisible !== nextProps.cloudLibraryVisible || 
+            this.props.maskLibraryVisible !== nextProps.maskLibraryVisible ||
             this.props.customProceduresVisible !== nextProps.customProceduresVisible ||
             this.props.locale !== nextProps.locale ||
             this.props.anyModalVisible !== nextProps.anyModalVisible ||
@@ -484,6 +486,7 @@ class Blocks extends React.Component {
             customProceduresVisible,
             extensionLibraryVisible,
             cloudLibraryVisible,
+            maskLibraryVisible,
             options,
             stageSize,
             vm,
@@ -496,6 +499,7 @@ class Blocks extends React.Component {
             onActivateCustomProcedures,
             onRequestCloseExtensionLibrary,
             onRequestCloseCloudLibrary,
+            onRequestCloseMaskLibrary,
             onRequestCloseCustomProcedures,
             toolboxXML,
             ...props
@@ -534,6 +538,14 @@ class Blocks extends React.Component {
                         onRequestClose= {onRequestCloseCloudLibrary}
                     />
                 ) : null}
+                {maskLibraryVisible? (
+                    <MaskLibrary
+                        vm={vm}
+                        onRequestClose= {onRequestCloseMaskLibrary}
+                        />
+                ): null
+                }
+                )}
                 {customProceduresVisible ? (
                     <CustomProcedures
                         options={{
@@ -553,6 +565,7 @@ Blocks.propTypes = {
     customProceduresVisible: PropTypes.bool,
     extensionLibraryVisible: PropTypes.bool,
     cloudLibraryVisible: PropTypes.bool,
+    maskLibraryVisible: PropTypes.bool,
     isRtl: PropTypes.bool,
     isVisible: PropTypes.bool,
     locale: PropTypes.string.isRequired,
@@ -564,6 +577,7 @@ Blocks.propTypes = {
     onRequestCloseCustomProcedures: PropTypes.func,
     onRequestCloseExtensionLibrary: PropTypes.func,
     onRequestCloseCloudLibrary: PropTypes.func,
+    onRequestCloseMaskLibrary: PropTypes.func,
     options: PropTypes.shape({
         media: PropTypes.string,
         zoom: PropTypes.shape({
@@ -632,6 +646,7 @@ const mapStateToProps = state => ({
     ),
     extensionLibraryVisible: state.scratchGui.modals.extensionLibrary,
     cloudLibraryVisible: state.scratchGui.modals.cloudLibrary,
+    maskLibraryVisible: state.scratchGui.modals.maskLibrary,
     isRtl: state.locales.isRtl,
     locale: state.locales.locale,
     messages: state.locales.messages,
@@ -655,6 +670,9 @@ const mapDispatchToProps = dispatch => ({
     },
     onRequestCloseCloudLibrary: () => {
         dispatch(closeCloudLibrary()) //关闭云端作品Modal
+    },
+    onRequestCloseMaskLibrary: () => {
+        dispatch(closeMaskLibrary()) //关闭非全屏Modal
     },
     onRequestCloseCustomProcedures: data => {
         dispatch(deactivateCustomProcedures(data));

@@ -12,6 +12,7 @@ import {
     getIsShowingProject
 } from '../reducers/project-state';
 import {setProjectTitle} from '../reducers/project-title';
+import {saveUserInfo} from '../reducers/user-info';
 import {
     activateTab,
     BLOCKS_TAB_INDEX,
@@ -56,6 +57,7 @@ class GUI extends React.Component {
         super(props)
     }
     componentDidMount () {
+        // this.props.onSaveReduxUserInfo("{name:'zhangsan', age: 19}")
         //获取路由参数
         let urlRouter = location.search;
         let  theRequest = new Object();
@@ -70,19 +72,7 @@ class GUI extends React.Component {
         setIsScratchDesktop(this.props.isScratchDesktop); // 设置是否在桌面下运行
         this.setReduxTitle(this.props.projectTitle); // 更新redux里面的项目title
         this.props.onStorageInit(storage); // 初始化作品存储加载
-        // let url=''
-        // const url ='https://steam.nosdn.127.net/dac8f13d-6796-4552-9352-ecfdfb21f41c.sb3'
-        // const url = './static/assets/Demo.sb3'
-
-        // fetch('https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=1&rsv_idx=2&tn=baiduhome_pg&wd=reactx%E4%BD%BF%E7%94%A8&rsv_spt=1&oq=react%2520%25E6%259B%25B4%25E6%2594%25B9%25E5%258F%2598%25E9%2587%258F%25E7%259A%2584%25E5%2580%25BC&rsv_pq=8126e3c00004370e&rsv_t=47efTKT4NTBY5cLWmv%2Bugo7ubkgfFx%2FbnzqJbmzrkMk6B1mu7TcgwLddDbpMqtRhM2%2Bd&rqlang=cn&rsv_enter=1&rsv_sug3=20&rsv_sug1=4&rsv_sug7=100&rsv_sug2=0&inputT=6575&rsv_sug4=7614',{
-        //     method:'POST'
-        // })
-        // .then( response=>{
-        //     console.log(response)
-        //     }
-        // )
-        // const url = theRequest.url
-        // const url = './static/assets/Demo.sb3'
+      
         const url = './static/assets/a.sb3'
         // const url  = '/sb3/a.sb3'
         // const url  = 'http://kejiide.qbitai.com/cors/a.sb3'
@@ -115,6 +105,7 @@ class GUI extends React.Component {
                 alert(`远程加载文件错误！${error}`)
             })
         }
+        this.getUserInfo()
     }
     componentDidUpdate (prevProps) {
         if (this.props.projectId !== prevProps.projectId && this.props.projectId !== null) {
@@ -129,6 +120,23 @@ class GUI extends React.Component {
             this.props.onProjectLoaded();
         }
     }
+
+    /**首页初始化后获取用户信息数据 */
+    getUserInfo() {
+        let _this = this
+        const url = 'https://kejiapi.qbitai.com/v1/user/info.html'
+        fetch(url,{
+            method:'GET'
+        }).then((res)=>{
+            return res.text()
+        }).then((res)=>{
+            let response = JSON.parse(res)
+            if(response.error === 0) {
+                _this.props.onSaveReduxUserInfo(response.data)
+            }
+        })
+    } 
+
     setReduxTitle (newTitle) {
         if (newTitle === null || typeof newTitle === 'undefined') {
             this.props.onUpdateReduxProjectTitle(
@@ -155,6 +163,7 @@ class GUI extends React.Component {
             onStorageInit,
             onUpdateProjectId,
             onUpdateReduxProjectTitle,
+            onSaveReduxUserInfo,
             projectHost,
             projectId,
             projectTitle,
@@ -163,6 +172,7 @@ class GUI extends React.Component {
             fetchingProject,
             isLoading,
             loadingStateVisible,
+
             ...componentProps
         } = this.props;
         return (
@@ -248,7 +258,8 @@ const mapDispatchToProps = dispatch => ({
     onRequestCloseBackdropLibrary: () => dispatch(closeBackdropLibrary()),
     onRequestCloseCostumeLibrary: () => dispatch(closeCostumeLibrary()),
     onRequestCloseTelemetryModal: () => dispatch(closeTelemetryModal()),
-    onUpdateReduxProjectTitle: title => dispatch(setProjectTitle(title))
+    onUpdateReduxProjectTitle: title => dispatch(setProjectTitle(title)),
+    onSaveReduxUserInfo: userInfo => dispatch(saveUserInfo(userInfo))
 });
 
 const ConnectedGUI = injectIntl(connect(

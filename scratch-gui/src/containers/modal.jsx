@@ -4,6 +4,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import ModalComponent from '../components/modal/modal.jsx';
+import ModalMaskComponent from '../components/modal/mask-modal.jsx';
 
 class Modal extends React.Component {
     constructor (props) {
@@ -15,8 +16,12 @@ class Modal extends React.Component {
             'pushHistory'
         ]);
         this.addEventListeners();
+        this.state = {
+            modalType: this.props.modalType ? this.props.modalType: ''
+        }
     }
     componentDidMount () {
+        console.log("类型:" + this.props.modalType)
         // Add a history event only if it's not currently for our modal. This
         // avoids polluting the history with many entries. We only need one.
         this.pushHistory(this.id, (history.state === null || history.state !== this.id));
@@ -42,7 +47,12 @@ class Modal extends React.Component {
         history.replaceState(state, this.id);
     }
     render () {
-        return <ModalComponent {...this.props} />;
+        return(
+            this.state.modalType ==='mask' ?  
+            <ModalMaskComponent {...this.props} /> :  <ModalComponent {...this.props} />
+        ) 
+        
+       
     }
 }
 

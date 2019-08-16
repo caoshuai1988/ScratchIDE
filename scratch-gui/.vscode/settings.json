@@ -1,5 +1,5 @@
 {
-    "editor.fontSize": 26,
+    "editor.fontSize": 18,
     "files.associations": {
         "*.css": "scss"
       }
