@@ -3,7 +3,9 @@ import bowser from 'bowser';
 
 let AUDIO_CONTEXT;
 if (!bowser.msie) {
-    AUDIO_CONTEXT = new (window.AudioContext || window.webkitAudioContext)();
+    window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext || window.msAudioContext || window.oAudioContext;
+    // AUDIO_CONTEXT = new (window.AudioContext || window.webkitAudioContext)();
+    AUDIO_CONTEXT = new window.AudioContext();
     StartAudioContext(AUDIO_CONTEXT); //cs TODO绑定第二个参数触发当前事件
 }
 

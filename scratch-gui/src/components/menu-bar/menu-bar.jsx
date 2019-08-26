@@ -244,12 +244,13 @@ class MenuBar extends React.Component {
     }
     handleSaveToCloud(saveProjectCloudCallBack) {
         return () => {
-            this.props.onRequestCloseFile()
+            console.log('111122')
+            // this.props.onRequestCloseFile()
             saveProjectCloudCallBack()
-            if(this.props.onProjectTelemetryEvent) {
-                const metadata = collectMetadata(this.props.vm, this.props.projectTitle, this.props.locale)
-                this.props.onProjectTelemetryEvent('projectDidSave', metadata)
-            }
+            // if(this.props.onProjectTelemetryEvent) {
+            //     const metadata = collectMetadata(this.props.vm, this.props.projectTitle, this.props.locale)
+            //     this.props.onProjectTelemetryEvent('projectDidSave', metadata)
+            // }
         }
     }
 

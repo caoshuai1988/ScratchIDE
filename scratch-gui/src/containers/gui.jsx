@@ -133,6 +133,8 @@ class GUI extends React.Component {
             let response = JSON.parse(res)
             if(response.error === 0) {
                 _this.props.onSaveReduxUserInfo(response.data)
+            }else {
+                alert(response.msg)
             }
         })
     } 

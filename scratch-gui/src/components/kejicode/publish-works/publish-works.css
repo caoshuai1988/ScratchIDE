@@ -1,0 +1,188 @@
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+    color: rgb(209,209,209);
+}
+input[type='checkbox'] {
+    width: 15px;
+    height: 15px;
+}
+
+.flexContainer {
+    display: flex;
+    align-items: center
+} 
+.mask {
+    padding: 35px 50px 25px
+}
+.mask_container {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(0,0,0,0.09);
+}
+.left_content {
+    flex: 1;
+}
+.work_input {
+    width: 100%;
+    height: 2.75rem;
+    border: 1px solid rgba(0,0,0,0.09);
+    border-radius: 4px;
+    font-size: 14px;
+    padding: 0 1rem;
+}
+.work_textarea {
+    width: 100%;
+    height: 15rem;
+    border: 1px solid rgba(0,0,0,0.09);
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 24px;
+    padding: .625rem 1rem;
+}
+.work_item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+.margin1rem {
+    margin-top: 1rem
+}
+.margin1_5rem {
+    margin-top: 2rem
+}
+.exend_code {
+    display: flex;
+    padding: 12px 0 32px;
+    font-size: 14px;
+}
+.middle_content {
+    width: 3rem
+}
+.right_content {
+    flex: 1;
+    display: flex;
+    flex-direction: column
+}
+.covers {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem
+}
+.default_img {
+    position: relative;
+    width: 216px;
+    height: 162px;
+    overflow: hidden;
+    border-radius: 4px;
+}
+.bottom_content {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 25px;
+}
+.button_item {
+    padding: 11px 28px;
+    outline: 0 none;
+    background:rgba(219,219,219,1) rgba(244,244,244,1);
+    border-radius:22px;
+    font-size: 16px;
+    -webkit-tap-highlight-color:transparent；
+}
+.button_commit {
+    color: #fff;
+    background:rgba(64,101,220,1);
+}
+.btn_addPic {
+    display: block; 
+    position: relative; 
+    width: 216px;
+    height: 162px; 
+    overflow: hidden; 
+    border: 1px solid #EBEBEB; 
+    background: none repeat scroll 0 0 #F3F3F3; 
+    color: #999999; 
+    cursor: pointer; 
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+.addPic_span {
+    display: block;
+    line-height: 39px;
+}
+.addPic_em {
+    background: url(http://p7.qhimg.com/t014ce592c1a0b2d489.png) 0 0; 
+    display: inline-block;
+    width: 18px;
+    height: 18px; 
+    overflow: hidden; 
+    margin: 10px 5px 10px 0; 
+    line-height: 20em;
+    vertical-align: middle; 
+}
+.filePrew {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0; 
+    width: 216px; 
+    height: 162px; 
+    font-size: 100px; 
+    opacity: 0;
+    cursor: pointer
+}
+.selPic_item {
+    width: 216px;
+    height: 162px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+}
+.selPic_item:hover .delPic_item{
+    display:block;
+}
+.delPic_item {
+    cursor: pointer;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    background-color: rgba(0,0,0,.5);
+    color: #fff;
+    display: none;
+}
+
+.selMask {
+    position: absolute;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background:rgba(0,0,0,0.4);
+    border-radius:4px;
+    border:1px solid rgba(0,0,0,0.17);
+}
+
+.circleCheck {
+    position: relative;
+    height: 36px;
+    width: 36px;
+    border-radius: 36px;
+    background:rgba(81,122,253,1);
+    border:2px solid rgba(255,255,255,1);
+    display: flex;
+    justify-content: center;
+}
+
+.draw {
+    position: absolute;
+    width: 8px;
+    height: 16px;
+    top: 6px;
+    border-color: #fff;
+    border-style: solid;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}
+

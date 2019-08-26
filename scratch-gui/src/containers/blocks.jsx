@@ -545,7 +545,6 @@ class Blocks extends React.Component {
                         />
                 ): null
                 }
-                )}
                 {customProceduresVisible ? (
                     <CustomProcedures
                         options={{

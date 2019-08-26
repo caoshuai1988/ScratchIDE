@@ -7,7 +7,7 @@ import {defineMessages, injectIntl, intlShape} from 'react-intl';
 import Modal from './modal.jsx';
 import Spinner from '../components/spinner/spinner.jsx';
 import Styles from '../components/library/library.css'
-import WorkItem from '../components/work-item/work-item.jsx';
+import PublishWorks from '../components/kejicode/publish-works/publish-works.jsx';
 
 const messages = defineMessages({
     // extensionTitle: {
@@ -29,82 +29,36 @@ class MaskLibrary extends React.PureComponent {
             visible: this.props.visible, // 是否显示，
             title: '发布作品',
             loaded: false, //加载状态
+            defCover: ["https://scratch-1259411883.cos.ap-beijing.myqcloud.com/cover20190725112127.png","https://test123-1256342805.cos.ap-chengdu.myqcloud.com/%E6%98%9F%E7%90%83%E8%83%8C%E6%99%AF-%E5%8A%A8%E7%94%BB.png"], //默认封面组
         }
         bindAll(this, []);
-        this.styles = {
-            mask: {
-                padding: '25px 50px'
-            },
-            mask_container: {
-                display: 'flex',
-                justifyContent: 'space-between',
-            },
-            left_content: {
-                flex: 1,
-            },
-            margin1rem: {
-                marginTop: '1rem'
-            },
-            margin1_5rem: {
-                marginTop: '1.5rem'
-            },
-            exend_code: {
-                display: 'flex'
-            },
-            middle_content: {
-                width: '3rem'
-            },
-            right_content: {
-                flex: 1,
-                display: 'flex',
-                flexDirection: 'column'
-            },
-            covers: {
-                display: 'flex',
-                justifyContent: 'space-between',
-                marginTop: '1rem'
-            },
-            default_img: {
-                width: '200px',
-                height: '140px',
-                background: '#BABABA',
-            },
-            bottom_content: {
-                display: 'flex',
-                justifyContent: 'center',
-                marginTop: '80px'
-            },
-            button_item: {
-                padding: '5px 20px',
-                borderRadius: '10px',
-                outline: '0 none'
-            }
-        }
     }
 
     componentDidMount () {
-        // Allow the spinner to display before loading the content
+        this.getDefaulgtCover()
         setTimeout(() => {
-            this.setState({loaded: true});
+            this.setState({loaded: true})
         });
     }
-
-    handleItemSelect (item) {
-        const id = item.extensionId;
-        let url = item.extensionURL ? item.extensionURL : id;
-        if (!item.disabled && !id) {
-            url = prompt(this.props.intl.formatMessage(messages.extensionUrl));
-        }
-        if (id && !item.disabled) {
-            if (this.props.vm.extensionManager.isExtensionLoaded(url)) {
-                this.props.onCategorySelected(id);
-            } else {
-                this.props.vm.extensionManager.loadExtensionURL(url).then(() => {
-                    this.props.onCategorySelected(id);
-                });
+      /*获取发布页面默认封面图 */
+      getDefaulgtCover() {
+        let _this = this
+        const url = 'https://kejiapi.qbitai.com/v1/scratch/publish-cover.html'
+        fetch(url,{
+            method:'GET'
+        }).then((res)=>{
+            return res.text()
+        }).then((response)=>{
+            let res = JSON.parse(response)
+            if(res.error === 0) {
+                _this.setState({
+                    defCover: res.data
+                })
+            }else {
+                alert(res.msg)
             }
-        }
-    }
+        })
+    } 
 
     render () {
         return (
@@ -115,41 +69,7 @@ class MaskLibrary extends React.PureComponent {
                 modalType='mask'
                 onRequestClose={this.props.onRequestClose}
             > 
-                <div style={this.styles.mask}>
-                    <div style={this.styles.mask_container}>
-                        <div style={this.styles.left_content}>
-                            <div>作品名称</div>
-                            <div style={this.styles.margin1rem}>
-                                <input style={{width: "100%", height:"2rem"}}  type="input" />
-                            </div>
-                            <div style={this.styles.margin1_5rem}>作品介绍与操作说明</div>
-                            <div style={this.styles.margin1rem}>
-                                <textarea style={{width:'100%'}} rows="10" />
-                            </div>
-                            <div style={this.styles.exend_code}>
-                                <div>公开分享</div>
-                                <div>允许查看源码</div>
-                            </div>
-                        </div>
-                        <div style={this.styles.middle_content}></div>
-                        <div style={this.styles.right_content}>
-                            <div>作品封面</div>
-                            <div style={this.styles.covers}>
-                                <div style={this.styles.default_img}>
-                                    图片1
-                                </div>
-                                <div style={this.styles.default_img}>
-                                    图片2
-                                </div>
-                            </div>
-                            <div style={this.styles.margin1_5rem}><input type="file" /></div>
-                        </div>
-                    </div>
-                    <div style={this.styles.bottom_content}>
-                        <div><button style={this.styles.button_item}>发布作品</button></div>
-                        <div><button style={this.styles.button_item}>返回编辑</button></div>
-                    </div>
-                </div>
+            <PublishWorks defCover={this.state.defCover}  closeModal={this.props.onRequestClose}/>
             </Modal>
         );
     }
