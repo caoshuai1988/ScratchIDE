@@ -65,6 +65,7 @@ const base = {
         },
         {
             test: /\.css$/,
+            exclude: /node_modules\/rc-pagination/,
             use: [{
                 loader: 'style-loader'
             }, {
@@ -90,6 +91,28 @@ const base = {
                     }
                 }
             }]
+        },
+        { 
+        test: /\.css$/,
+        include: /node_modules\/rc-pagination/,
+        use: [
+            {
+                loader: 'style-loader'
+            },
+            {
+                loader: 'css-loader'
+            },
+            {
+                loader: 'postcss-loader',
+                options: {
+                    plugins: function() {
+                       return autoprefixer({
+                            browsers: ['last 3 versions', 'Safari >= 8', 'iOS >= 8']
+                        })
+                    }
+                }
+            }
+        ]
         }]
     },
     optimization: {

@@ -3,11 +3,13 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import VM from 'scratch-vm';
-import {defineMessages, injectIntl, intlShape} from 'react-intl';
-import Modal from './modal.jsx';
-import Spinner from '../components/spinner/spinner.jsx';
+import {defineMessages, injectIntl, intlShape} from 'react-intl'
+import Modal from './modal.jsx'
+import Spinner from '../components/spinner/spinner.jsx'
 import Styles from '../components/library/library.css'
-import WorkItem from '../components/work-item/work-item.jsx';
+import WorkItem from '../components/work-item/work-item.jsx'
+import Pagination from '../components/pagination/index.jsx'
+
 
 const messages = defineMessages({
     // extensionTitle: {
@@ -30,6 +32,7 @@ class CloudLibrary extends React.PureComponent {
             visible: this.props.visible, // 是否显示，
             title: '云端保存的作品',
             loaded: false, //加载状态
+            pageNum: 1
         }
         bindAll(this, [
             'handleItemSelect',
@@ -145,6 +148,7 @@ class CloudLibrary extends React.PureComponent {
                         </div>
                     )}
                 </div>
+                <Pagination current={11} total={200} onChange={(pageNum) => console.log(pageNum)} />
             </Modal>
         );
     }
