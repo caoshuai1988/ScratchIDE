@@ -12,7 +12,7 @@
     overflow-y: auto;
     height: auto;
     padding: 0.5rem;
-    height: calc(100% - $library-header-height);
+    height: calc(100% - $library-header-height - 5rem);
 }
 
 .library-scroll-grid.withFilterBar {

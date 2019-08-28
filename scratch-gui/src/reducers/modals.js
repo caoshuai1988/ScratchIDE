@@ -14,6 +14,7 @@ const MODAL_CONNECTION = 'connectionModal';
 // const MODAL_TIPS_LIBRARY = 'tipsLibrary';
 const MODAL_CLOUD_LIBRARY = 'cloudLibrary'; //云端库modal
 const MODAL_MASK_LIBRARY = 'maskLibrary'; // 背景阴影
+const MODAL_PLAYER_LIBRARY = 'playerLibrary'; // 作品详情
 
 
 const initialState = {
@@ -30,6 +31,7 @@ const initialState = {
     // [MODAL_TIPS_LIBRARY]: false
     [MODAL_CLOUD_LIBRARY]: false,
     [MODAL_MASK_LIBRARY]: false,
+    [MODAL_PLAYER_LIBRARY]: false,
 };
 
 const reducer = function (state, action) {
@@ -107,7 +109,12 @@ const openMaskLibrary = function () {
 const closeMaskLibrary = function () {
     return closeModal(MODAL_MASK_LIBRARY)
 }
-
+const openPlayerLibrary = function () {
+    return openModal(MODAL_PLAYER_LIBRARY)
+}
+const closePlayerLibrary = function () {
+    return closeModal(MODAL_PLAYER_LIBRARY)
+}
 const closeBackdropLibrary = function () {
     return closeModal(MODAL_BACKDROP_LIBRARY);
 };
@@ -156,8 +163,8 @@ export {
     // openTipsLibrary,
     openCloudLibrary,
     openMaskLibrary,
+    openPlayerLibrary,
     openConnectionModal,
-
     closeBackdropLibrary,
     closeCameraCapture,
     closeCostumeLibrary,
@@ -170,5 +177,6 @@ export {
     // closeTipsLibrary,
     closeCloudLibrary,
     closeMaskLibrary,
+    closePlayerLibrary,
     closeConnectionModal
 };

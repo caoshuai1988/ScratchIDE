@@ -12,7 +12,8 @@ import Prompt from './prompt.jsx';
 import BlocksComponent from '../components/blocks/blocks.jsx';
 import ExtensionLibrary from './extension-library.jsx';
 import CloudLibrary from './cloud-library.jsx'; // 云端作品库
-import MaskLibrary from './mask-library.jsx'; //非全屏modal库
+import MaskLibrary from './mask-library.jsx'; // 非全屏modal
+import PlayerLibrary from './player-library.jsx'; // 作品详情modal
 import extensionData from '../lib/libraries/extensions/index.jsx';
 import CustomProcedures from './custom-procedures.jsx';
 import errorBoundaryHOC from '../lib/error-boundary-hoc.jsx';
@@ -23,7 +24,7 @@ import DragConstants from '../lib/drag-constants';
 import {connect} from 'react-redux';
 import {updateToolbox} from '../reducers/toolbox';
 import {activateColorPicker} from '../reducers/color-picker';
-import {closeExtensionLibrary, openSoundRecorder, openConnectionModal, closeCloudLibrary, closeMaskLibrary} from '../reducers/modals';
+import {closeExtensionLibrary, openSoundRecorder, openConnectionModal, closeCloudLibrary, closeMaskLibrary, closePlayerLibrary} from '../reducers/modals';
 import {activateCustomProcedures, deactivateCustomProcedures} from '../reducers/custom-procedures';
 import {setConnectionModalExtensionId} from '../reducers/connection-modal';
 
@@ -145,6 +146,7 @@ class Blocks extends React.Component {
             this.props.extensionLibraryVisible !== nextProps.extensionLibraryVisible ||
             this.props.cloudLibraryVisible !== nextProps.cloudLibraryVisible || 
             this.props.maskLibraryVisible !== nextProps.maskLibraryVisible ||
+            this.props.playerLibraryVisible !== nextProps.playerLibrary ||
             this.props.customProceduresVisible !== nextProps.customProceduresVisible ||
             this.props.locale !== nextProps.locale ||
             this.props.anyModalVisible !== nextProps.anyModalVisible ||
@@ -487,6 +489,7 @@ class Blocks extends React.Component {
             extensionLibraryVisible,
             cloudLibraryVisible,
             maskLibraryVisible,
+            playerLibraryVisible,
             options,
             stageSize,
             vm,
@@ -500,6 +503,7 @@ class Blocks extends React.Component {
             onRequestCloseExtensionLibrary,
             onRequestCloseCloudLibrary,
             onRequestCloseMaskLibrary,
+            onRequestClosePlayerLibrary,
             onRequestCloseCustomProcedures,
             toolboxXML,
             ...props
@@ -545,6 +549,13 @@ class Blocks extends React.Component {
                         />
                 ): null
                 }
+                {playerLibraryVisible? (
+                    <PlayerLibrary
+                        vm={vm}
+                        onRequestClose={onRequestClosePlayerLibrary}
+                    />
+                ):null
+                }
                 {customProceduresVisible ? (
                     <CustomProcedures
                         options={{
@@ -565,6 +576,7 @@ Blocks.propTypes = {
     extensionLibraryVisible: PropTypes.bool,
     cloudLibraryVisible: PropTypes.bool,
     maskLibraryVisible: PropTypes.bool,
+    playerLibraryVisible: PropTypes.bool,
     isRtl: PropTypes.bool,
     isVisible: PropTypes.bool,
     locale: PropTypes.string.isRequired,
@@ -577,6 +589,7 @@ Blocks.propTypes = {
     onRequestCloseExtensionLibrary: PropTypes.func,
     onRequestCloseCloudLibrary: PropTypes.func,
     onRequestCloseMaskLibrary: PropTypes.func,
+    onRequestClosePlayerLibrary: PropTypes.func,
     options: PropTypes.shape({
         media: PropTypes.string,
         zoom: PropTypes.shape({
@@ -646,6 +659,7 @@ const mapStateToProps = state => ({
     extensionLibraryVisible: state.scratchGui.modals.extensionLibrary,
     cloudLibraryVisible: state.scratchGui.modals.cloudLibrary,
     maskLibraryVisible: state.scratchGui.modals.maskLibrary,
+    playerLibraryVisible: state.scratchGui.modals.playerLibrary,
     isRtl: state.locales.isRtl,
     locale: state.locales.locale,
     messages: state.locales.messages,
@@ -672,6 +686,9 @@ const mapDispatchToProps = dispatch => ({
     },
     onRequestCloseMaskLibrary: () => {
         dispatch(closeMaskLibrary()) //关闭非全屏Modal
+    },
+    onRequestClosePlayerLibrary: () => {
+        dispatch(closePlayerLibrary()) //关闭Player Modal
     },
     onRequestCloseCustomProcedures: data => {
         dispatch(deactivateCustomProcedures(data));

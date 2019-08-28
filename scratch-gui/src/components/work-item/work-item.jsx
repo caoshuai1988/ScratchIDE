@@ -18,7 +18,7 @@ class WorkItemComponent extends React.PureComponent {
             <div className={styles.featuredImageContainer}>
                 <img
                     className={styles.featuredImage}
-                    src={this.props.workItem.imgSrc}
+                    src={this.props.workItem.img}
                 />
             </div>
             <div
@@ -27,7 +27,7 @@ class WorkItemComponent extends React.PureComponent {
             >
                 <span className={styles.libraryItemName}>{this.props.workItem.title}</span>
                 <br />
-                <span className={styles.featuredDescription}>{this.props.workItem.date}</span>
+                <span className={styles.featuredDescription}>{this.props.workItem.update_at}</span>
             </div>
         </div>
         )

@@ -1,6 +1,7 @@
 import React from 'react';
 import 'rc-pagination/dist/rc-pagination.min.css';
 import RcPagination from 'rc-pagination';
+import styles from './index.css';
 import classNames from 'classnames';
 import {FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
@@ -12,8 +13,8 @@ class Pagination extends React.PureComponent {
     }
     render () {
         return (
-            <div className="row">
-                <div className="col-md-12">
+            <div className={styles.pageContaier}>
+                <div className={styles.pageItem}>
                     <RcPagination {...this.props} 
                     hideOnSinglePage
                     showQuickJumper />

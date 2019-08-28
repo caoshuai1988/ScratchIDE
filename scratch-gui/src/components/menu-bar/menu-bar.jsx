@@ -31,7 +31,7 @@ import DeletionRestorer from '../../containers/deletion-restorer.jsx';
 import TurboMode from '../../containers/turbo-mode.jsx';
 import MenuBarHOC from '../../containers/menu-bar-hoc.jsx';
 
-import {openCloudLibrary, openMaskLibrary} from '../../reducers/modals';
+import {openCloudLibrary, openMaskLibrary, openPlayerLibrary} from '../../reducers/modals';
 import {setPlayer} from '../../reducers/mode';
 import {
     autoUpdateProject,
@@ -672,7 +672,8 @@ class MenuBar extends React.Component {
                         <SB3Downloader>{(className) => (
                             <MenuItem
                                 className={classNames(styles.operateBtn, className)}
-                                onClick={this.props.onMaskModalButtonClick}
+                                // onClick={this.props.onMaskModalButtonClick}
+                                onClick={this.props.onPlayerModalButtonClick}
                                 // onClick={this.handleSaveToCloud(downloadProjectServeCallback)}
                             >
                                 {this.workOptionMessage('Submit')}
@@ -898,6 +899,7 @@ const mapDispatchToProps = dispatch => ({
     onSeeCommunity: () => dispatch(setPlayer(true)),
     onCloudModalButtonClick: () => dispatch(openCloudLibrary()),
     onMaskModalButtonClick: () => dispatch(openMaskLibrary()),
+    onPlayerModalButtonClick: () => dispatch(openPlayerLibrary()),
     
 });
 

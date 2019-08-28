@@ -51,8 +51,6 @@ class Modal extends React.Component {
             this.state.modalType ==='mask' ?  
             <ModalMaskComponent {...this.props} /> :  <ModalComponent {...this.props} />
         ) 
-        
-       
     }
 }
 

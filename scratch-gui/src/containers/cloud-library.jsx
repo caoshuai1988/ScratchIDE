@@ -32,7 +32,9 @@ class CloudLibrary extends React.PureComponent {
             visible: this.props.visible, // 是否显示，
             title: '云端保存的作品',
             loaded: false, //加载状态
-            pageNum: 1
+            pageNum: 1, // 当前页
+            total: 0, // 总条数
+            pageSize: 1, //每页显示条数
         }
         bindAll(this, [
             'handleItemSelect',
@@ -65,7 +67,7 @@ class CloudLibrary extends React.PureComponent {
     }
 
     componentDidMount () {
-        // Allow the spinner to display before loading the content
+        this.getCloudData()
         setTimeout(() => {
             this.setState({loaded: true});
         });
@@ -88,27 +90,31 @@ class CloudLibrary extends React.PureComponent {
         }
     }
     getCloudData () {
-        return  [{
-            imgSrc: 'https://mmbiz.qlogo.cn/mmbiz/Mo21APPFBgXibzXsuzdVibpQhicmBBW5sVvJficN7NulwGW2gibbsMEoOHUL4eEjRvVicPiaLia28FTVG8Atdx2mDFhCGw/0?wx_fmt=jpeg',
-            title: '我爱北京天安门',
-            date: '5月23日18：29'
-        },{
-            imgSrc: 'https://mmbiz.qlogo.cn/mmbiz/Mo21APPFBgXibzXsuzdVibpQhicmBBW5sVvJficN7NulwGW2gibbsMEoOHUL4eEjRvVicPiaLia28FTVG8Atdx2mDFhCGw/0?wx_fmt=jpeg',
-            title: '我爱北京天安门',
-            date: '5月23日18：29'
-        },{
-            imgSrc: 'https://mmbiz.qlogo.cn/mmbiz/Mo21APPFBgXibzXsuzdVibpQhicmBBW5sVvJficN7NulwGW2gibbsMEoOHUL4eEjRvVicPiaLia28FTVG8Atdx2mDFhCGw/0?wx_fmt=jpeg',
-            title: '我爱北京天安门',
-            date: '5月23日18：29'
-        },{
-            imgSrc: 'https://mmbiz.qlogo.cn/mmbiz/Mo21APPFBgXibzXsuzdVibpQhicmBBW5sVvJficN7NulwGW2gibbsMEoOHUL4eEjRvVicPiaLia28FTVG8Atdx2mDFhCGw/0?wx_fmt=jpeg',
-            title: '我爱北京天安门',
-            date: '5月23日18：29'
-        },{
-            imgSrc: 'https://mmbiz.qlogo.cn/mmbiz/Mo21APPFBgXibzXsuzdVibpQhicmBBW5sVvJficN7NulwGW2gibbsMEoOHUL4eEjRvVicPiaLia28FTVG8Atdx2mDFhCGw/0?wx_fmt=jpeg',
-            title: '我爱北京天安门',
-            date: '5月23日18：29'
-        }]
+        let _this = this
+        const url = 'https://kejiapi.qbitai.com/v1/scratch/cloud.html?page='+this.state.pageNum+'&page_size='+ this.state.pageSize
+        fetch(url,{
+            method:'GET',
+        }).then((res)=>{
+            return res.text()
+        }).then((res)=>{
+            let response = JSON.parse(res)
+            if(response.error === 0) {
+               _this.setState({
+                cloudLibraryData: response.data.list,
+                total: parseInt(response.data.count)
+               })
+            }else {
+                alert(res.msg)
+            }
+        })
+    }
+
+    jumpPageWork (page) {
+        this.setState({
+            pageNum: page
+        }, function(){
+            this.getCloudData()
+        })
     }
 
     render () {
@@ -126,19 +132,8 @@ class CloudLibrary extends React.PureComponent {
                     })}
                     ref={this.setFilteredDataRef}
                 >
-                    {this.state.loaded ? this.getCloudData().map((item, index) => (
+                    {this.state.cloudLibraryData.length > 0 ? this.state.cloudLibraryData.map((item, index) => (
                         <WorkItem key={index} workItem={item} />
-                        // <div
-                        // className={[this.styles.libraryItem_library, this.styles.llibraryItem_featured]}
-                        // id={index}
-                        // key={`item_${index}`}
-                        // >
-                        //     <div>
-                        //         <img src={item.src} />
-                        //     </div>
-                        //     <div>{item.title}</div>
-                        //     <div>{item.date}</div>
-                        // </div> 
                     )) : (
                         <div className={Styles.spinnerWrapper}>
                             <Spinner
@@ -148,7 +143,7 @@ class CloudLibrary extends React.PureComponent {
                         </div>
                     )}
                 </div>
-                <Pagination current={11} total={200} onChange={(pageNum) => console.log(pageNum)} />
+                <Pagination current={this.state.pageNum} pageSize={this.state.pageSize} total={this.state.total} onChange={(pageNum) => this.jumpPageWork(pageNum)} />
             </Modal>
         );
     }
