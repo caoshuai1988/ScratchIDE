@@ -20,7 +20,6 @@ class Controls extends React.Component {
         if (e.shiftKey) {
             this.props.vm.setTurboMode(!this.props.turbo);
         } else {
-            console.log(this.props.isStarted,'惦记了，')
 
             if (!this.props.isStarted) {
                 this.props.vm.start();

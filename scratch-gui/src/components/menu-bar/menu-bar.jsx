@@ -33,6 +33,8 @@ import MenuBarHOC from '../../containers/menu-bar-hoc.jsx';
 
 import {openCloudLibrary, openMaskLibrary, openPlayerLibrary} from '../../reducers/modals';
 import {setPlayer} from '../../reducers/mode';
+import {saveUserInfo} from '../../reducers/user-info';
+
 import {
     autoUpdateProject,
     getIsUpdating,
@@ -67,7 +69,6 @@ import styles from './menu-bar.css';
 import mystuffIcon from './icon--mystuff.png';
 import remixIcon from './icon--remix.svg';
 import dropdownCaret from './dropdown-caret.svg';
-// import languageIcon from '../language-selector/language-icon.svg';
 import language_zh from '../language-selector/icon_lang_zh.png';
 import language_en from '../language-selector/icon_lang_en.png';
 import scratchLogo from './logo.png'
@@ -155,31 +156,43 @@ class MenuBar extends React.Component {
             'handleRestoreOption',
             'handleSaveToComputer',
             'handleSaveToCloud',
-            'restoreOptionMessage'
+            'restoreOptionMessage',
+            'handleOperateBtn',
+            'getUserInfo'
         ]);
         this.state = {
-            userInfo : {
-                // username: this.props.userInfo.nickname,
-                // avatar: this.props.userInfo.avatar
-                // operate: 'Free', //自由创作 ->继续
-            }
         }
     }
     componentDidMount () {
-        let paramUrl =  window.location.search.substring(1)
-        let param = paramUrl.substring(paramUrl.indexOf('=')+1)
-
         document.addEventListener('keydown', this.handleKeyPress);
+        this.getUserInfo()
     }
     componentWillUnmount () {
         document.removeEventListener('keydown', this.handleKeyPress);
     }
+
+    getUserInfo() {
+        let _this = this
+        const url = 'https://kejiapi.qbitai.com/v1/user/info.html'
+        fetch(url,{
+            method:'GET'
+        }).then((res)=>{
+            return res.text()
+        }).then((res)=>{
+            let response = JSON.parse(res)
+            if(response.error === 0) {
+                _this.props.onSaveReduxUserInfo(response.data)
+            }else {
+                alert(response.msg)
+            }
+        })
+    }
+
     handleClickNew () {
         /* 当前作品变动 会提示是否放弃当前作品 */
         const readyToReplaceProject = this.props.confirmReadyToReplaceProject(
             this.props.intl.formatMessage(sharedMessages.replaceProjectWarning)
         );
-
         this.props.onRequestCloseFile();
         if (readyToReplaceProject) {
             this.props.onClickNew(this.props.canSave && this.props.canCreateNew);
@@ -198,6 +211,7 @@ class MenuBar extends React.Component {
         this.props.onClickSaveAsCopy();
         this.props.onRequestCloseFile();
     }
+    /**点击按钮打开社区 */
     handleClickSeeCommunity (waitForUpdate) {
         if (this.props.shouldSaveBeforeTransition()) {
             this.props.autoUpdateProject(); // save before transitioning to project page
@@ -206,7 +220,9 @@ class MenuBar extends React.Component {
             waitForUpdate(false); // immediately transition to project page
         }
     }
+    /*点击分享按钮 */
     handleClickShare (waitForUpdate) {
+        console.log('handleClickShare')
         if (!this.props.isShared) {
             if (this.props.canShare) { // save before transitioning to project page
                 this.props.onShare();
@@ -244,7 +260,6 @@ class MenuBar extends React.Component {
     }
     handleSaveToCloud(saveProjectCloudCallBack) {
         return () => {
-            console.log('111122')
             // this.props.onRequestCloseFile()
             saveProjectCloudCallBack()
             // if(this.props.onProjectTelemetryEvent) {
@@ -291,16 +306,17 @@ class MenuBar extends React.Component {
         }
     }
 
-    workOptionMessage (operateItem) {
+    workOptionMessage () {
+        let operateItem = this.props.workType.workType
         switch (operateItem) {
-            case 'Continue':
+            case 'Practice':
                 return (<span>继续</span>);
-            case 'Release':
+            case 'Creation':
                 return (<span>发布作品</span>);
-            case 'Submit':
+            case 'Homework':
                 return (<span>提交作业</span>);
             default: {
-                return (<span></span>);
+                return (<span>自由创作</span>);
             }
         }
     }
@@ -334,6 +350,21 @@ class MenuBar extends React.Component {
                 id="gui.menuBar.restore"
             />);
         }
+        }
+    }
+
+    handleOperateBtn() {
+        let operateItem = this.props.workType.workType
+        switch(operateItem) {
+            case 'Practice':
+                window.location.replace('https://kejihome.qbitai.com')
+                break;
+            case 'Homework':
+                    this.props.onMaskModalButtonClick()
+                break;
+                // this.handleSaveToCloud(downloadProjectServeCallback)
+            break;
+            default: return
         }
     }
 
@@ -420,7 +451,6 @@ class MenuBar extends React.Component {
                             </div>
                             <LanguageSelector label={this.props.intl.formatMessage(ariaMessages.language)} />
                         </div>
-
                         {/* 头部文件包 */}
                         <div
                             className={classNames(styles.menuBarItem, styles.hoverable, {
@@ -577,11 +607,12 @@ class MenuBar extends React.Component {
                             </MenuBarMenu>
                         </div>
                     </div>
+
+                    {/* 教程 */}
                     {/* <div
                         aria-label={this.props.intl.formatMessage(ariaMessages.tutorials)}
                         className={classNames(styles.menuBarItem, styles.hoverable)}
-                        onClick={this.props.onOpenTipLibrary}
-                    >
+                        onClick={this.props.onOpenTipLibrary}>
                         <FormattedMessage {...ariaMessages.tutorials} />
                     </div> */}
                     
@@ -635,7 +666,7 @@ class MenuBar extends React.Component {
                         {this.props.canRemix ? remixButton : []}
                     </div> */}
                     
-                    {/* <div className={classNames(styles.menuBarItem, styles.communityButtonWrapper)}>
+                    <div className={classNames(styles.menuBarItem, styles.communityButtonWrapper)}>
                         {this.props.enableCommunity ? (
                             (this.props.isShowingProject || this.props.isUpdating) && (
                                 <ProjectWatcher onDoneUpdating={this.props.onSeeCommunity}>
@@ -656,7 +687,7 @@ class MenuBar extends React.Component {
                                 <CommunityButton className={styles.menuBarButton} />
                             </MenuBarItemTooltip>
                         ) : [])}
-                    </div> */}
+                    </div>
                 </div>
 
                 {/* show the proper UI in the account menu, given whether the user is
@@ -672,11 +703,11 @@ class MenuBar extends React.Component {
                         <SB3Downloader>{(className) => (
                             <MenuItem
                                 className={classNames(styles.operateBtn, className)}
+                                onClick={this.handleOperateBtn}
                                 // onClick={this.props.onMaskModalButtonClick}
-                                onClick={this.props.onPlayerModalButtonClick}
                                 // onClick={this.handleSaveToCloud(downloadProjectServeCallback)}
                             >
-                                {this.workOptionMessage('Submit')}
+                                {this.workOptionMessage()}
                             </MenuItem>
                         )}
                         </SB3Downloader>
@@ -685,7 +716,6 @@ class MenuBar extends React.Component {
                         this.props.username ? (
                             // ************ user is logged in ************
                             <React.Fragment>
-                                1111
                                 <a href="/mystuff/">
                                     <div
                                         className={classNames(
@@ -768,17 +798,16 @@ class MenuBar extends React.Component {
                                             styles.kjAccountMenu
                                         )}
                                     >
-                                        <img
-                                            className={classNames(
-                                                styles.profileIcon,
-                                                styles.kjProfileIcon)}
-                                            src="https://imgsa.baidu.com/forum/w%3D580%3B/sign=506afc2e05087bf47dec57e1c2e8552c/f7246b600c338744a607ec19560fd9f9d62aa091.jpg"
-                                            // src={this.props.userInfo? this.props.userInfo.avatar: null}
-                                        />
-                                        <span>
-                                            {this.props.userInfo? this.props.userInfo.nickname: ''}
-                                        </span>
-                                    </div>
+                                    <img
+                                        className={classNames(
+                                        styles.profileIcon,
+                                        styles.kjProfileIcon)}
+                                        src={this.props.userInfo? this.props.userInfo.avatar: null}
+                                    />
+                                    <span>
+                                        {this.props.userInfo? this.props.userInfo.nickname: ''}
+                                    </span>
+                                </div>
                                 </React.Fragment>
                             ) : []}
                         </React.Fragment>
@@ -846,7 +875,8 @@ MenuBar.propTypes = {
     username: PropTypes.string,
     vm: PropTypes.instanceOf(VM).isRequired,
     currentLocale: PropTypes.string.isRequired,
-    userInfo: PropTypes.object
+    userInfo: PropTypes.object,
+    workType: PropTypes.object,
 };
 
 MenuBar.defaultProps = {
@@ -875,7 +905,8 @@ const mapStateToProps = (state, ownProps) => {
         vm: state.scratchGui.vm,
         operateWork: state.scratchGui.operateWork.operateItem, //操作作品
         currentLocale: state.locales.locale, //当前语言
-        userInfo: state.scratchGui.userInfo
+        userInfo: state.scratchGui.userInfo, //自有接口 获取用户信息
+        workType: state.scratchGui.workType, //自有接口 获取操作作品类型
     };
 };
 
@@ -900,6 +931,7 @@ const mapDispatchToProps = dispatch => ({
     onCloudModalButtonClick: () => dispatch(openCloudLibrary()),
     onMaskModalButtonClick: () => dispatch(openMaskLibrary()),
     onPlayerModalButtonClick: () => dispatch(openPlayerLibrary()),
+    onSaveReduxUserInfo: userInfo => dispatch(saveUserInfo(userInfo)),
     
 });
 

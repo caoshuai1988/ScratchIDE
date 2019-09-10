@@ -59,6 +59,7 @@ class PublishWorks extends React.PureComponent {
             })
         }
     }
+    
     //工具方法转Blob
     utilDataURItoBlob (dataURI){
         var byteString = atob(dataURI.split(',')[1]);
@@ -74,7 +75,7 @@ class PublishWorks extends React.PureComponent {
     handlePublishWork() {
         let defCover = !this.state.disabled? this.state.selDefCover: '';
         let work = {
-            fileName: this.name.value,
+            fileName: this.name.value+ '.sb3',
             details: this.intro.value,
             status: this.state.isShare? 1: 2,
             source_code: this.state.isCode? 1: 2,

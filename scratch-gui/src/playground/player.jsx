@@ -22,10 +22,10 @@ import styles from './player.css';
 
 const Player = ({isPlayerOnly, onSeeInside, projectId}) => (
     <Box className={classNames(isPlayerOnly ? styles.stageOnly : styles.editor)}>
-        {isPlayerOnly && <button onClick={onSeeInside}>{'See inside'}</button>}
+        {isPlayerOnly}
         <GUI
-            enableCommunity
-            isPlayerOnly={isPlayerOnly}
+            // enableCommunity
+            isPlayerOnly={false}
             projectId={projectId}
         />
     </Box>

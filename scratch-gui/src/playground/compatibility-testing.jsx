@@ -42,7 +42,8 @@ class Player extends React.Component {
                     allowTransparency
                     frameBorder="0"
                     height="402"
-                    src={`https://scratch.mit.edu/projects/embed/${this.state.projectId}/?autostart=true`}
+                    // src={`https://scratch.mit.edu/projects/embed/${this.state.projectId}/?autostart=true`}
+                    src={`https://work-1259411883.cos.ap-beijing.myqcloud.com/Work/9408b7053444a6d038a99d471eaf9b69.sb3/?autostart=true`}
                     width="485"
                 />
             </div>

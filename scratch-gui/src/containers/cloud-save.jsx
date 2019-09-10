@@ -13,9 +13,10 @@ class SaveCloud extends React.Component {
         ]);
     }
     saveProjectCloud () {
-        console.log('Server')
+        let productionId = ''; //作品id
+        let stepId = this.props.stepId; // 步骤id
         this.props.saveProjectSb3().then(content => {
-            saveCloud(this.props.projectFilename, content);
+            saveCloud(this.props.projectFilename, productionId, stepId, content);
         });
     }
     render () {
@@ -42,7 +43,8 @@ SaveCloud.propTypes = {
     className: PropTypes.string,
     onSaveFinished: PropTypes.func,
     projectFilename: PropTypes.string,
-    saveProjectSb3: PropTypes.func
+    saveProjectSb3: PropTypes.func,
+    stepId: PropTypes.string
 };
 SaveCloud.defaultProps = {
     className: ''
@@ -50,7 +52,8 @@ SaveCloud.defaultProps = {
 
 const mapStateToProps = state => ({
     saveProjectSb3: state.scratchGui.vm.saveProjectSb3.bind(state.scratchGui.vm),
-    projectFilename: getProjectFilename(state.scratchGui.projectTitle, projectTitleInitialState)
+    projectFilename: getProjectFilename(state.scratchGui.projectTitle, projectTitleInitialState),
+    stepId: state.scratchGui.stepId
 });
 
 export default connect(

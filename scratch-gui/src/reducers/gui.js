@@ -27,6 +27,10 @@ import toolboxReducer, {toolboxInitialState} from './toolbox';
 import vmReducer, {vmInitialState} from './vm';
 import vmStatusReducer, {vmStatusInitialState} from './vm-status';
 import userInfoReducer, {userInfoInitialState} from './user-info';
+import workInfoReducer, {workInfoInitialState} from './work-info';
+import playerReducer, {playerInitialState} from './only-player';
+import workTypeReducer, {workTypeInitialState} from './work-type';
+import videoInfoReducer, {videoInfoInitialState} from './video-info';
 
 import throttle from 'redux-throttle';
 
@@ -63,6 +67,10 @@ const guiInitialState = {
     vm: vmInitialState,
     vmStatus: vmStatusInitialState,
     userInfo: userInfoInitialState,
+    workInfo: workInfoInitialState,
+    onlyPlayer: playerInitialState,
+    workType: workTypeInitialState,
+    videoInfo: videoInfoInitialState,
 };
 
 const initPlayer = function (currentState) {
@@ -162,7 +170,11 @@ const guiReducer = combineReducers({
     toolbox: toolboxReducer,
     vm: vmReducer,
     vmStatus: vmStatusReducer,
-    userInfo: userInfoReducer
+    userInfo: userInfoReducer,
+    workInfo: workInfoReducer,
+    onlyPlayer: playerReducer,
+    workType: workTypeReducer,
+    videoInfo: videoInfoReducer,
 });
 
 export {

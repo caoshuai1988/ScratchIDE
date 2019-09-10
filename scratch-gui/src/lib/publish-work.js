@@ -31,6 +31,7 @@ export default (work, sb3) => {
                 body: fd
             }).then(response => {
                 console.log("response:" + JSON.stringify(response))
+                return 'success'
             })
         }  
     }

@@ -2,7 +2,6 @@ import bindAll from 'lodash.bindall';
 import {classNames, css} from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import VM from 'scratch-vm';
 import {defineMessages, injectIntl, intlShape} from 'react-intl';
 import Modal from './modal.jsx';
 import WorkPlayer from '../components/kejicode/work-player/work-player.jsx'
@@ -66,7 +65,7 @@ class PlayerLibrary extends React.PureComponent {
                 modalType='mask'
                 onRequestClose={this.props.onRequestClose}
             > 
-            <WorkPlayer closeModal={this.props.onRequestClose}/>
+            <WorkPlayer vm={this.props.vm} stageSize={'large'} isPlayerOnly={false}  closeModal={this.props.onRequestClose}/>
             </Modal>
         );
     }
@@ -75,7 +74,6 @@ class PlayerLibrary extends React.PureComponent {
 PlayerLibrary.propTypes = {
     onRequestClose: PropTypes.func,
     visible: PropTypes.bool,
-    vm: PropTypes.instanceOf(VM).isRequired // eslint-disable-line react/no-unused-prop-types
 };
 
 export default injectIntl(PlayerLibrary);

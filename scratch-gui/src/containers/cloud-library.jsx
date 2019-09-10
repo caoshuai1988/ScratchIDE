@@ -2,8 +2,11 @@ import bindAll from 'lodash.bindall';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
+import {connect} from 'react-redux';
 import VM from 'scratch-vm';
 import {defineMessages, injectIntl, intlShape} from 'react-intl'
+import analytics from '../lib/analytics'
+
 import Modal from './modal.jsx'
 import Spinner from '../components/spinner/spinner.jsx'
 import Styles from '../components/library/library.css'
@@ -34,11 +37,12 @@ class CloudLibrary extends React.PureComponent {
             loaded: false, //加载状态
             pageNum: 1, // 当前页
             total: 0, // 总条数
-            pageSize: 1, //每页显示条数
+            pageSize: 2, //每页显示条数
         }
         bindAll(this, [
             'handleItemSelect',
-            'getCloudData'
+            'getCloudData',
+            'handleLoadWork'
         ]);
         this.styles = {
             llibraryItem_featured: {
@@ -89,6 +93,7 @@ class CloudLibrary extends React.PureComponent {
             }
         }
     }
+    
     getCloudData () {
         let _this = this
         const url = 'https://kejiapi.qbitai.com/v1/scratch/cloud.html?page='+this.state.pageNum+'&page_size='+ this.state.pageSize
@@ -109,12 +114,40 @@ class CloudLibrary extends React.PureComponent {
         })
     }
 
-    jumpPageWork (page) {
+    jumpPageWork(page) {
         this.setState({
             pageNum: page
         }, function(){
             this.getCloudData()
         })
+    }
+
+    handleLoadWork(url) {
+        if(url !== null && url !="" ){
+            fetch(url,{
+                method:'GET'
+            })
+            .then(response => 
+                response.blob() 
+            )
+            .then(blob =>{
+                const reader = new FileReader();
+                reader.onload = () =>this.props.vm.loadProject(reader.result) //读取本地sb3文件
+                .then(()=>{
+                    analytics.event({
+                        category:'project',
+                        action:'Improt project File',
+                        nonInteraction:true
+                    })
+                })
+                reader.readAsArrayBuffer(blob)
+            }).then(()=>{
+                this.props.onRequestClose()
+            })
+            .catch(error =>{
+                alert(`远程作品错误！${error}`)
+            })
+        }
     }
 
     render () {
@@ -133,7 +166,7 @@ class CloudLibrary extends React.PureComponent {
                     ref={this.setFilteredDataRef}
                 >
                     {this.state.cloudLibraryData.length > 0 ? this.state.cloudLibraryData.map((item, index) => (
-                        <WorkItem key={index} workItem={item} />
+                        <WorkItem key={index} workItem={item} handleLoadWork={this.handleLoadWork} />
                     )) : (
                         <div className={Styles.spinnerWrapper}>
                             <Spinner
@@ -155,4 +188,14 @@ CloudLibrary.propTypes = {
     vm: PropTypes.instanceOf(VM).isRequired // eslint-disable-line react/no-unused-prop-types
 };
 
-export default injectIntl(CloudLibrary);
+const mapStateToProps = state => {
+    return {
+        vm: state.scratchGui.vm
+    }
+}
+
+const ConnectedCloudLibrary = injectIntl(connect(
+    mapStateToProps,
+)(CloudLibrary));
+
+export default injectIntl(ConnectedCloudLibrary);

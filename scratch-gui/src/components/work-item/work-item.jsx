@@ -5,7 +5,11 @@ import React from 'react';
 import styles from './work-item.css';
 import classNames from 'classnames';
 
+
+
 class WorkItemComponent extends React.PureComponent {
+
+
     render () {
         return (<div
             className={classNames(
@@ -13,7 +17,7 @@ class WorkItemComponent extends React.PureComponent {
                 styles.featuredItem,
                 styles.libraryItemExtension,
             )}
-            onClick={this.props.onClick}
+            onClick={()=>this.props.handleLoadWork(this.props.workItem.file_url)}
         >
             <div className={styles.featuredImageContainer}>
                 <img

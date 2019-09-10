@@ -13,7 +13,6 @@ const guiReducers = {
     scratchPaint: ScratchPaintReducer
 };
 
-
 export {
     GUI as
     default,

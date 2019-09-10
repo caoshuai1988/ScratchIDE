@@ -1,13 +1,9 @@
-input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
-    color: rgb(209,209,209);
-}
-
 .flexStyle {
     display: flex;
     align-items: center
 } 
 .mask {
-    padding: 35px 50px 48px
+    padding: 35px 50px 48px;
 }
 .mask_container {
     display: flex;

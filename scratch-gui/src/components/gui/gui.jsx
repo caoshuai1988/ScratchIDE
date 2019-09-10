@@ -9,6 +9,7 @@ import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
 import tabStyles from 'react-tabs/style/react-tabs.css';
 import VM from 'scratch-vm';
 import Renderer from 'scratch-render';
+import {setPlayer} from '../../reducers/mode';
 
 import Blocks from '../../containers/blocks.jsx';
 import CostumeTab from '../../containers/costume-tab.jsx';
@@ -111,8 +112,12 @@ const GUIComponent = props => {
         stageSizeMode,
         targetIsStage,
         telemetryModalVisible,
+        onSeeInside,
         // tipsLibraryVisible,
         vm,
+        userInfo,
+        workInfo,
+        onlyPlayer,
         ...componentProps
     } = omit(props, 'dispatch');
     if (children) {
@@ -142,7 +147,11 @@ const GUIComponent = props => {
                 loading={loading}
                 stageSize={STAGE_SIZE_MODES.large}
                 vm={vm}
-                player={isPlayerOnly}
+                onSeeInside= {onSeeInside}
+                player= {onlyPlayer ? false: isPlayerOnly}
+                // player= {isPlayerOnly}
+                userInfo = {userInfo}
+                workInfo = {workInfo}
             >
                 {alertsVisible ? (
                     <Alerts className={styles.alertsContainer} />
@@ -171,12 +180,7 @@ const GUIComponent = props => {
                 {isRendererSupported ? null : (
                     <WebGlModal isRtl={isRtl} />
                 )}
-                {/* {tipsLibraryVisible ? (
-                    <TipsLibrary />
-                ) : null} */}
-                {/* {cardsVisible ? (
-                    <Cards />
-                ) : null} */}
+               
                 {alertsVisible ? (
                     <Alerts className={styles.alertsContainer} />
                 ) : null}
@@ -406,7 +410,10 @@ GUIComponent.propTypes = {
     targetIsStage: PropTypes.bool,
     telemetryModalVisible: PropTypes.bool,
     // tipsLibraryVisible: PropTypes.bool,
-    vm: PropTypes.instanceOf(VM).isRequired
+    vm: PropTypes.instanceOf(VM).isRequired,
+    userInfo: PropTypes.object,
+    workInfo: PropTypes.object,
+    onlyPlayer: PropTypes.bool
 };
 GUIComponent.defaultProps = {
     backpackHost: null,
@@ -417,22 +424,29 @@ GUIComponent.defaultProps = {
     canRemix: false,
     canSave: false,
     canCreateCopy: false,
-    canShare: false,
+    canShare: true, //cs update
     canUseCloud: false,
-    enableCommunity: false,
+    enableCommunity: true, //启用社区 cs update
     isCreating: false,
-    isShared: false,
+    isShared: false, //分享状态
     loading: false,
     onUpdateProjectTitle: () => {},
     showComingSoon: false,
-    stageSizeMode: STAGE_SIZE_MODES.large
+    stageSizeMode: STAGE_SIZE_MODES.large,
 };
 
 const mapStateToProps = state => ({
-    // This is the button's mode, as opposed to the actual current state
-    stageSizeMode: state.scratchGui.stageSize.stageSize
+    stageSizeMode: state.scratchGui.stageSize.stageSize,
+    userInfo: state.scratchGui.userInfo, //自有接口 获取用户信息
+    workInfo: state.scratchGui.workInfo, //自有接口 获取当前加载作品信息
+    onlyPlayer: state.scratchGui.onlyPlayer.onlyPlayer, //获取显示播放器模式
+});
+
+const mapDispatchToProps = dispatch => ({
+    onSeeInside: () => dispatch(setPlayer(false))
 });
 
 export default injectIntl(connect(
-    mapStateToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(GUIComponent));

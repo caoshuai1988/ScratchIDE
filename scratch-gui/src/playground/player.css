@@ -1,5 +1,8 @@
+body {
+    margin: 0;
+}
 .stage-only {
-    width: calc(480px + 1rem);
+    width: 480px;
 }
 
 .editor {

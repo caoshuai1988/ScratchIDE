@@ -12,16 +12,17 @@ import {
     getIsShowingProject
 } from '../reducers/project-state';
 import {setProjectTitle} from '../reducers/project-title';
-import {saveUserInfo} from '../reducers/user-info';
+import {saveWorkInfo} from '../reducers/work-info';
+import {setOnlyPlayer} from '../reducers/only-player';
+import {setWorkType} from '../reducers/work-type';
+import {setStepId} from '../reducers/video-info';
+
 import {
     activateTab,
     BLOCKS_TAB_INDEX,
     COSTUMES_TAB_INDEX,
     SOUNDS_TAB_INDEX
 } from '../reducers/editor-tab';
-
-import {setPlayer} from '../reducers/mode';
-import {setStartedState} from '../reducers/vm-status';
 
 import {
     closeCostumeLibrary,
@@ -43,6 +44,13 @@ import cloudManagerHOC from '../lib/cloud-manager-hoc.jsx';
 import GUIComponent from '../components/gui/gui.jsx';
 import {setIsScratchDesktop} from '../lib/isScratchDesktop.js';
 
+function getQueryStringByName (name){
+    var result = location.search.match(new RegExp("[\?\&]" + name+ "=([^\&]+)","i"));
+    if(result == null || result.length < 1){
+        return "";
+    }
+    return decodeURIComponent(result[1]);
+}
 
 const messages = defineMessages({
     defaultProjectTitle: {
@@ -52,35 +60,59 @@ const messages = defineMessages({
     }
 });
 
+let sb3File = ""
 class GUI extends React.Component {
     constructor(props) {
         super(props)
     }
-    componentDidMount () {
-        // this.props.onSaveReduxUserInfo("{name:'zhangsan', age: 19}")
-        //获取路由参数
-        let urlRouter = location.search;
-        let  theRequest = new Object();
-        if (urlRouter.indexOf("?") != -1) {
-                let strs = urlRouter.substr(1);
-                strs = strs.split("&");
-                for(let i = 0; i < strs.length; i ++) {
-                theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
-            }
-        }
 
-        setIsScratchDesktop(this.props.isScratchDesktop); // 设置是否在桌面下运行
-        this.setReduxTitle(this.props.projectTitle); // 更新redux里面的项目title
+    componentDidMount () {
+        // let _this = this;
+        setIsScratchDesktop(this.props.isScratchDesktop);// 设置是否在桌面下运行
         this.props.onStorageInit(storage); // 初始化作品存储加载
-      
-        const url = './static/assets/a.sb3'
-        // const url  = '/sb3/a.sb3'
-        // const url  = 'http://kejiide.qbitai.com/cors/a.sb3'
-        let falg = true
-        if(theRequest.type ==='3' && theRequest.autoPlay ==='1' ){
-            falg = true
+        this.props.onVmInit(this.props.vm);//
+        this.setReduxTitle('初始化加载作品');
+        this.getCurWorkInfo();
+//获取路由参数
+        //this.setReduxTitle(this.props.projectTitle); // 更新redux里面的项目title
+        // const url = './static/assets/a.sb3'
+        // const url ='https://work-1259411883.cos.ap-beijing.myqcloud.com/Work/fb916a71b9933cb9be753d6a22f36903.sb3
+        sb3File = getQueryStringByName('sb3File')
+        let setpType = getQueryStringByName('stepType');
+        let setpId = getQueryStringByName('stepId');
+        let onlyPlayer = getQueryStringByName('onlyPlayer');
+        let _this =this;
+        if(setpId!=='') {
+            _this.props.onSetReduxStepId(setpId); // 保存步骤Id
         }
-        if(url !== null && url !=undefined ){
+        if(setpType!=='') {
+            _this.props.onSetPrograWorkType(setpType);
+        }
+        if(onlyPlayer!=='') {
+            _this.props.onSetOnlyPlayer(JSON.parse(onlyPlayer)); // 初始化设置是否为外部调用只显示播放器模式
+        }
+       
+        
+    }
+
+    componentDidUpdate (prevProps) {
+        if (this.props.projectId !== prevProps.projectId && this.props.projectId !== null) {
+            this.props.onUpdateProjectId(this.props.projectId);
+        }
+        if (this.props.projectTitle !== prevProps.projectTitle) {
+            this.setReduxTitle(this.props.projectTitle);
+        }
+        if (this.props.isShowingProject && !prevProps.isShowingProject) {
+            // this only notifies container when a project changes from not yet loaded to loaded
+            // At this time the project view in www doesn't need to know when a project is unloaded
+            this.props.onProjectLoaded();
+            this.handleLoadWork(sb3File);
+        }
+    }
+
+
+    handleLoadWork(url) {
+        if(url !== null && url !="" ){
             fetch(url,{
                 method:'GET'
             })
@@ -88,8 +120,6 @@ class GUI extends React.Component {
                 response.blob() 
             )
             .then(blob =>{
-                // this.props.setStartedState(!falg)
-                // this.props.setPlayer(!falg)
                 const reader = new FileReader();
                 reader.onload = () =>this.props.vm.loadProject(reader.result) //读取本地sb3文件
                 .then(()=>{
@@ -102,29 +132,15 @@ class GUI extends React.Component {
                 reader.readAsArrayBuffer(blob)
             })
             .catch(error =>{
-                alert(`远程加载文件错误！${error}`)
+                alert(`远程作品错误！${error}`)
             })
-        }
-        this.getUserInfo()
-    }
-    componentDidUpdate (prevProps) {
-        if (this.props.projectId !== prevProps.projectId && this.props.projectId !== null) {
-            this.props.onUpdateProjectId(this.props.projectId);
-        }
-        if (this.props.projectTitle !== prevProps.projectTitle) {
-            this.setReduxTitle(this.props.projectTitle);
-        }
-        if (this.props.isShowingProject && !prevProps.isShowingProject) {
-            // this only notifies container when a project changes from not yet loaded to loaded
-            // At this time the project view in www doesn't need to know when a project is unloaded
-            this.props.onProjectLoaded();
         }
     }
 
-    /**首页初始化后获取用户信息数据 */
-    getUserInfo() {
+    /**首页初始化获取当前作品详细信息 */
+    getCurWorkInfo() {
         let _this = this
-        const url = 'https://kejiapi.qbitai.com/v1/user/info.html'
+        const url = 'https://kejiapi.qbitai.com/v1/works/detail.html?id=7'
         fetch(url,{
             method:'GET'
         }).then((res)=>{
@@ -132,12 +148,12 @@ class GUI extends React.Component {
         }).then((res)=>{
             let response = JSON.parse(res)
             if(response.error === 0) {
-                _this.props.onSaveReduxUserInfo(response.data)
+                _this.props.onSavePrograWorkInfo(response.data)
             }else {
                 alert(response.msg)
             }
         })
-    } 
+    }
 
     setReduxTitle (newTitle) {
         if (newTitle === null || typeof newTitle === 'undefined') {
@@ -165,7 +181,12 @@ class GUI extends React.Component {
             onStorageInit,
             onUpdateProjectId,
             onUpdateReduxProjectTitle,
+            onVmInit,
             onSaveReduxUserInfo,
+            onSavePrograWorkInfo,
+            onSetPrograWorkType,
+            onSetReduxStepId,
+            onSetOnlyPlayer,
             projectHost,
             projectId,
             projectTitle,
@@ -174,7 +195,6 @@ class GUI extends React.Component {
             fetchingProject,
             isLoading,
             loadingStateVisible,
-
             ...componentProps
         } = this.props;
         return (
@@ -206,6 +226,7 @@ GUI.propTypes = {
     onUpdateProjectId: PropTypes.func,
     onUpdateProjectTitle: PropTypes.func,
     onUpdateReduxProjectTitle: PropTypes.func,
+    onVmInit: PropTypes.func,
     projectHost: PropTypes.string,
     projectId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     projectTitle: PropTypes.string,
@@ -217,7 +238,8 @@ GUI.defaultProps = {
     isScratchDesktop: false,
     onStorageInit: storageInstance => storageInstance.addOfficialScratchWebStores(),
     onProjectLoaded: () => {},
-    onUpdateProjectId: () => {}
+    onUpdateProjectId: () => {},
+    onVmInit: (/* vm */) => {}
 };
 
 const mapStateToProps = state => {
@@ -261,7 +283,10 @@ const mapDispatchToProps = dispatch => ({
     onRequestCloseCostumeLibrary: () => dispatch(closeCostumeLibrary()),
     onRequestCloseTelemetryModal: () => dispatch(closeTelemetryModal()),
     onUpdateReduxProjectTitle: title => dispatch(setProjectTitle(title)),
-    onSaveReduxUserInfo: userInfo => dispatch(saveUserInfo(userInfo))
+    onSavePrograWorkInfo: workInfo => dispatch(saveWorkInfo(workInfo)),
+    onSetPrograWorkType: workType => dispatch(setWorkType(workType)),
+    onSetReduxStepId: stepId => dispatch(setStepId(stepId)),
+    onSetOnlyPlayer: onlyPlayer => dispatch(setOnlyPlayer(onlyPlayer))
 });
 
 const ConnectedGUI = injectIntl(connect(

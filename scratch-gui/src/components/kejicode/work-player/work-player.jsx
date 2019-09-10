@@ -4,7 +4,14 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import bindAll from 'lodash.bindall';
 import styles from './work-player.css';
+import Renderer from 'scratch-render';
 import classNames from 'classnames';
+import VM from 'scratch-vm';
+import {STAGE_DISPLAY_SIZES} from '../../../lib/layout-constants.js';
+import GUI from '../../../containers/gui.jsx';
+
+let isRendererSupported = null;
+let   enableCommunity = true;
 
 class WorkPlayer extends React.PureComponent {
     constructor(props){
@@ -14,9 +21,20 @@ class WorkPlayer extends React.PureComponent {
         //     'handlePublishWork'
         // ]);
         this.state = {
-
+            vm: this.props.vm,
+            stageSize: this.props.stageSize,
+            isPlayerOnly: this.props.isPlayerOnly,
+            isRtl: true,
+            
+        }
+        if (isRendererSupported === null) {
+            isRendererSupported = Renderer.isSupported();
         }
     }
+
+    componentDidMount(){
+    }
+    
     //点赞
     handleLiker() {
         
@@ -43,7 +61,11 @@ class WorkPlayer extends React.PureComponent {
                 </div>
                 <div className={styles.body}>
                     <div className={styles.left_content}>
-                        player
+                        <GUI
+                            enableCommunity
+                            isPlayerOnly={this.state.isPlayerOnly}
+                            projectId={''}
+                        />
                     </div>
                     <div className={styles.middle_content}></div>
                     <div className={styles.right_content}>
@@ -75,4 +97,14 @@ class WorkPlayer extends React.PureComponent {
 //     mapStateToProps,
 //     () => ({})
 // )(WorkPlayer);
+
+WorkPlayer.propTypes = {
+    // isFullScreen: PropTypes.bool,
+    // isRendererSupported: PropTypes.bool.isRequired,
+    // isRtl: PropTypes.bool.isRequired,
+    // loading: PropTypes.bool,
+    stageSize: PropTypes.oneOf(Object.keys(STAGE_DISPLAY_SIZES)).isRequired,
+    vm: PropTypes.instanceOf(VM).isRequired,
+    // player:PropTypes.bool
+};
 export default WorkPlayer
