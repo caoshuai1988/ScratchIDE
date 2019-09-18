@@ -56,7 +56,9 @@ const base = {
                     '@babel/plugin-proposal-object-rest-spread',
                     ['react-intl', {
                         messagesDir: './translations/messages/'
-                    }]],
+                    }],
+                    ["import", {libraryName: "antd", style: 'css'} ]
+                ],
                 presets: [
                     ['@babel/preset-env', {targets: {browsers: ['last 3 versions', 'Safari >= 8', 'iOS >= 8']}}],
                     '@babel/preset-react'
@@ -65,7 +67,7 @@ const base = {
         },
         {
             test: /\.css$/,
-            exclude: /node_modules\/rc-pagination/,
+            exclude: [/node_modules\/rc-pagination/, /[\\/]node_modules[\\/].*antd/],
             use: [{
                 loader: 'style-loader'
             }, {
@@ -94,7 +96,7 @@ const base = {
         },
         { 
         test: /\.css$/,
-        include: /node_modules\/rc-pagination/,
+        include: [/node_modules\/rc-pagination/,/[\\/]node_modules[\\/].*antd/],
         use: [
             {
                 loader: 'style-loader'
@@ -177,7 +179,7 @@ module.exports = [
             new HtmlWebpackPlugin({
                 chunks: ['lib.min', 'gui'],
                 template: 'src/playground/index.ejs',
-                title: 'Scratch 3.0 GUI',
+                title: '柯基编程 Scratch 3.0',
                 sentryConfig: process.env.SENTRY_CONFIG ? '"' + process.env.SENTRY_CONFIG + '"' : null
             }),
             new HtmlWebpackPlugin({
@@ -196,7 +198,7 @@ module.exports = [
                 chunks: ['lib.min', 'player'],
                 template: 'src/playground/index.ejs',
                 filename: 'player.html',
-                title: '柯基编程分享页'
+                title: '柯基编程 Scratch分享页'
             }),
             new CopyWebpackPlugin([{
                 from: 'static',

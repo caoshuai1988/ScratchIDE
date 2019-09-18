@@ -69,7 +69,7 @@
 
 .menu-bar-item {
     display: flex;
-    padding: 0 0.25rem;
+    padding: 0 1.5rem;
     text-decoration: none;
     color: $ui-white;
     user-select: none;
@@ -228,6 +228,14 @@
     border-radius: 4px;
     height: 32px;
     text-align: center;
+}
+.communityBtn {
+    background: hsla(0, 100%, 100%, 0.15);
+    border-radius: 4px;
+    height: 32px;
+    text-align: center;
+    padding: 0;
+    margin-left:24px;
 }
 
 .kjAccountMenu {

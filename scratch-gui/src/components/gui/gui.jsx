@@ -148,8 +148,8 @@ const GUIComponent = props => {
                 stageSize={STAGE_SIZE_MODES.large}
                 vm={vm}
                 onSeeInside= {onSeeInside}
-                player= {onlyPlayer ? false: isPlayerOnly}
-                // player= {isPlayerOnly}
+                // player= {onlyPlayer ? false: isPlayerOnly}
+                player={onlyPlayer}
                 userInfo = {userInfo}
                 workInfo = {workInfo}
             >
@@ -439,7 +439,7 @@ const mapStateToProps = state => ({
     stageSizeMode: state.scratchGui.stageSize.stageSize,
     userInfo: state.scratchGui.userInfo, //自有接口 获取用户信息
     workInfo: state.scratchGui.workInfo, //自有接口 获取当前加载作品信息
-    onlyPlayer: state.scratchGui.onlyPlayer.onlyPlayer, //获取显示播放器模式
+    onlyPlayer: state.scratchGui.onlyPlayer, //获取显示播放器模式
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -7,7 +7,6 @@ import VM from 'scratch-vm';
 import spriteLibraryContent from '../lib/libraries/sprites.json';
 import randomizeSpritePosition from '../lib/randomize-sprite-position';
 import spriteTags from '../lib/libraries/sprite-tags';
-
 import LibraryComponent from '../components/library/library.jsx';
 
 const messages = defineMessages({

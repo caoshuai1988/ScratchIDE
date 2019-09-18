@@ -34,6 +34,7 @@ import MenuBarHOC from '../../containers/menu-bar-hoc.jsx';
 import {openCloudLibrary, openMaskLibrary, openPlayerLibrary} from '../../reducers/modals';
 import {setPlayer} from '../../reducers/mode';
 import {saveUserInfo} from '../../reducers/user-info';
+import {setOnlyPlayer} from '../../reducers/only-player';
 
 import {
     autoUpdateProject,
@@ -173,9 +174,11 @@ class MenuBar extends React.Component {
 
     getUserInfo() {
         let _this = this
+        // const url = 'https://api.lzw.limmy.com/v1/user/info.html'
         const url = 'https://kejiapi.qbitai.com/v1/user/info.html'
         fetch(url,{
-            method:'GET'
+            method:'GET',
+            credentials: "include",
         }).then((res)=>{
             return res.text()
         }).then((res)=>{
@@ -213,6 +216,7 @@ class MenuBar extends React.Component {
     }
     /**点击按钮打开社区 */
     handleClickSeeCommunity (waitForUpdate) {
+        this.props.onSetOnlyPlayer(true); //显示作品详情
         if (this.props.shouldSaveBeforeTransition()) {
             this.props.autoUpdateProject(); // save before transitioning to project page
             waitForUpdate(true); // queue the transition to project page
@@ -357,13 +361,13 @@ class MenuBar extends React.Component {
         let operateItem = this.props.workType.workType
         switch(operateItem) {
             case 'Practice':
-                window.location.replace('https://kejihome.qbitai.com')
+                // window.location.replace('https://kejihome.qbitai.com')
+                window.location.href='http://localhost:3000?stepId=23#/video'
                 break;
             case 'Homework':
                     this.props.onMaskModalButtonClick()
                 break;
                 // this.handleSaveToCloud(downloadProjectServeCallback)
-            break;
             default: return
         }
     }
@@ -539,7 +543,7 @@ class MenuBar extends React.Component {
                                             </MenuItem>
                                         )}
                                     </FetchCloud>
-                                    <SaveCloud>{(className, saveProjectCloudCallBack) => (
+                                    {/* <SaveCloud>{(className, saveProjectCloudCallBack) => (
                                         <MenuItem
                                             className={className}
                                             onClick={this.handleSaveToCloud(saveProjectCloudCallBack)}
@@ -547,7 +551,7 @@ class MenuBar extends React.Component {
                                         <span>保存到云端</span>
                                         </MenuItem>
                                     )}
-                                    </SaveCloud>
+                                    </SaveCloud> */}
                                 </MenuSection>
                             </MenuBarMenu>
                         </div>
@@ -608,6 +612,17 @@ class MenuBar extends React.Component {
                         </div>
                     </div>
 
+                    <div
+                        aria-label='存草稿'
+                        className={classNames(styles.menuBarItem, styles.hoverable)}
+                        onClick={this.props.onOpenTipLibrary}>
+                        <SaveCloud>{(className, saveProjectCloudCallBack) => (
+                                <span onClick={this.handleSaveToCloud(saveProjectCloudCallBack)}>存草稿</span>
+                            )}
+                        </SaveCloud>
+                    </div>
+             
+
                     {/* 教程 */}
                     {/* <div
                         aria-label={this.props.intl.formatMessage(ariaMessages.tutorials)}
@@ -666,7 +681,7 @@ class MenuBar extends React.Component {
                         {this.props.canRemix ? remixButton : []}
                     </div> */}
                     
-                    <div className={classNames(styles.menuBarItem, styles.communityButtonWrapper)}>
+                    {/* <div className={classNames(styles.menuBarItem, styles.communityBtn)}>
                         {this.props.enableCommunity ? (
                             (this.props.isShowingProject || this.props.isUpdating) && (
                                 <ProjectWatcher onDoneUpdating={this.props.onSeeCommunity}>
@@ -687,7 +702,7 @@ class MenuBar extends React.Component {
                                 <CommunityButton className={styles.menuBarButton} />
                             </MenuBarItemTooltip>
                         ) : [])}
-                    </div>
+                    </div> */}
                 </div>
 
                 {/* show the proper UI in the account menu, given whether the user is
@@ -932,7 +947,7 @@ const mapDispatchToProps = dispatch => ({
     onMaskModalButtonClick: () => dispatch(openMaskLibrary()),
     onPlayerModalButtonClick: () => dispatch(openPlayerLibrary()),
     onSaveReduxUserInfo: userInfo => dispatch(saveUserInfo(userInfo)),
-    
+    onSetOnlyPlayer: onlyPlayer => dispatch(setOnlyPlayer(onlyPlayer)),
 });
 
 export default compose(

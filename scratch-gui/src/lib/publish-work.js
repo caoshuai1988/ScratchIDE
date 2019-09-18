@@ -1,3 +1,5 @@
+import { message, Button } from 'antd'; // antd组件
+
 function dataURItoBlob (dataURI){
     var byteString = atob(dataURI.split(',')[1]);
     var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
@@ -8,7 +10,26 @@ function dataURItoBlob (dataURI){
     }
     return new Blob([ab], {type: mimeString});
 }
-export default (work, sb3) => {
+
+  /**redux 项目信息更新 */
+function getCurWorkInfo(id, props) {
+    const url = 'https://kejiapi.qbitai.com/v1/works/detail.html?id='+id
+    // const url = 'https://api.lzw.limmy.com/v1/works/detail.html?id='+id
+    fetch(url,{
+        method:'GET',
+        credentials: "include",
+    }).then((res)=>{
+        return res.text()
+    }).then((res)=>{
+        let response = JSON.parse(res)
+        if(response.error === 0) {
+            props.onSavePrograWorkInfo(response.data)
+        }else {
+            message.error(response.msg)
+        }
+    })
+}
+export default (work, sb3, props) => {
     var filedata = ''
     var reader = new FileReader();
     reader.readAsDataURL(sb3);
@@ -21,17 +42,24 @@ export default (work, sb3) => {
             fd.set('filedata', binary, work.fileName);
             fd.append('title', work.fileName);
             fd.append('details', work.details);
-            fd.append('imgdata', work.imgdata!==""?dataURItoBlob(work.imgdata): '');// 用户上传封面
+            fd.append('imgdata', work.imgdata!==""?work.imgdata: '');// 用户上传封面
             fd.append('step_id', '14');
             fd.append('source_code', work.source_code);
             fd.append('status', work.status);
             fd.append('img_url', work.img_url);
-            fetch("https://kejiapi.qbitai.com/v1/scratch/workhome.html",{
+            //https://kejiapi.qbitai.com/v1/scratch/workhome.html
+            fetch("https://api.lzw.limmy.com/v1/scratch/workhome.html",{
                 method: 'PUT',
                 body: fd
             }).then(response => {
-                console.log("response:" + JSON.stringify(response))
-                return 'success'
+                return response.json().then((data)=> {
+                    if(data.error > 0) {
+                        message.error(data.msg)
+                    }else {
+                        message.success('作品发布成功')
+                        getCurWorkInfo(data.data.file_id , props)
+                    }
+                })    
             })
         }  
     }

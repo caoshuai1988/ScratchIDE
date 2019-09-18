@@ -1,15 +1,13 @@
 /**CS 关于作品信息 */
-const SET_ONLYPLAYER = 'ONLY_PLAYER';
+const SET_ONLYPLAYER = 'SET_ONLYPLAYER';
 
-const initialState = {
-    onlyPlayer: false
-}
+const initialState = false
 
 const reducer = function (state, action) {
     if (typeof state === 'undefined') state = initialState;
     switch (action.type) {
     case SET_ONLYPLAYER:
-        return Object.assign({}, state.onlyPlayer, action.onlyPlayer)
+        return action.onlyPlayer;
     default:
         return state;
     }

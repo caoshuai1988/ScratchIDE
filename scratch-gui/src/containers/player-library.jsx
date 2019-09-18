@@ -40,8 +40,10 @@ class PlayerLibrary extends React.PureComponent {
       getDefaulgtCover() {
         let _this = this
         const url = 'https://kejiapi.qbitai.com/v1/scratch/publish-cover.html'
+        // const url = 'https://api.lzw.limmy.com/v1/scratch/publish-cover.html'
         fetch(url,{
-            method:'GET'
+            method:'GET',
+            credentials: 'include'
         }).then((res)=>{
             return res.text()
         }).then((response)=>{

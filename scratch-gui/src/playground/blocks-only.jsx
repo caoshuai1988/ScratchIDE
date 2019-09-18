@@ -16,7 +16,7 @@ const VMBlocks = connect(mapStateToProps)(Blocks);
 const VMControls = connect(mapStateToProps)(Controls);
 
 const BlocksOnly = props => (
-    <GUI {...props} sb3Url="121212">
+    <GUI {...props}>
         <VMBlocks
             grow={1}
             options={{

@@ -90,9 +90,90 @@ class LibraryComponent extends React.Component {
         this.setState({filterQuery: ''});
     }
     getFilteredData () {
+        let sourceList = this.props.data
+        let externalList = [
+            {
+              "name": "飞行器",
+              "md5": "fd2a6dfcd9e7200871e6ad9cf5cb79f0",
+              "poster": "https://course-1259411883.cos.ap-beijing.myqcloud.com/Course/fd2a6dfcd9e7200871e6ad9cf5cb79f0.png",
+              "type": "keji",
+              "tags": [
+                "素材奖励活动",
+                "奖励",
+                "keji"
+              ],
+              "info": [
+                0.5
+              ],
+              "json": {
+                "objName": "飞行器",
+                "costumes": [
+                  {
+                    "costumeName": "飞行器",
+                    "baseLayerID:": -1,
+                    "baseLayerMD5": "fd2a6dfcd9e7200871e6ad9cf5cb79f0",
+                    "bitmapResolution": 1
+                  }
+                ],
+                "currentCostumeIndex": 0,
+                "scale": 1,
+                "direction": 90,
+                "rotationStyle": "normal",
+                "isDraggable": false,
+                "visible": true,
+                "spriteInfo": {}
+              },
+              "extra": {
+                "enabled": true,
+                "message": "",
+                "detail": "",
+                "preview": ""
+              }
+            },
+            {
+              "name": "空间站",
+              "md5": "9a8bc0513e84387dfa437fda398471fc",
+              "poster": "https://course-1259411883.cos.ap-beijing.myqcloud.com/Course/9a8bc0513e84387dfa437fda398471fc.png",
+              "type": "keji",
+              "tags": [
+                "素材奖励活动",
+                "奖励",
+                "keji"
+              ],
+              "info": [
+                0.5
+              ],
+              "json": {
+                "objName": "空间站",
+                "costumes": [
+                  {
+                    "costumeName": "空间站",
+                    "baseLayerID:": -1,
+                    "baseLayerMD5": "9a8bc0513e84387dfa437fda398471fc",
+                    "bitmapResolution": 1
+                  }
+                ],
+                "currentCostumeIndex": 0,
+                "scale": 1,
+                "direction": 90,
+                "rotationStyle": "normal",
+                "isDraggable": false,
+                "visible": true,
+                "spriteInfo": {}
+              },
+              "extra": {
+                "enabled": false,
+                "message": "",
+                "detail": "",
+                "preview": ""
+              }
+            }
+          ]
+
+        sourceList = sourceList.concat(externalList)
         if (this.state.selectedTag === 'all') {
-            if (!this.state.filterQuery) return this.props.data;
-            return this.props.data.filter(dataItem => (
+            if (!this.state.filterQuery) return sourceList;
+            return sourceList.filter(dataItem => (
                 (dataItem.tags || [])
                     // Second argument to map sets `this`
                     .map(String.prototype.toLowerCase.call, String.prototype.toLowerCase)
@@ -106,11 +187,11 @@ class LibraryComponent extends React.Component {
                     .indexOf(this.state.filterQuery.toLowerCase()) !== -1
             ));
         }
-        return this.props.data.filter(dataItem => (
+        return sourceList.filter(dataItem => (
             dataItem.tags &&
             dataItem.tags
-                .map(String.prototype.toLowerCase.call, String.prototype.toLowerCase)
-                .indexOf(this.state.selectedTag) !== -1
+            .map(String.prototype.toLowerCase.call, String.prototype.toLowerCase)
+            .indexOf(this.state.selectedTag) !== -1
         ));
     }
     scrollToTop () {
@@ -180,7 +261,8 @@ class LibraryComponent extends React.Component {
                             featured={dataItem.featured}
                             hidden={dataItem.hidden}
                             iconMd5={dataItem.md5}
-                            iconRawURL={dataItem.rawURL}
+                            iconType={dataItem.type}
+                            iconRawURL={dataItem.poster}
                             icons={dataItem.json && dataItem.json.costumes}
                             id={index}
                             insetIconURL={dataItem.insetIconURL}

@@ -97,8 +97,10 @@ class CloudLibrary extends React.PureComponent {
     getCloudData () {
         let _this = this
         const url = 'https://kejiapi.qbitai.com/v1/scratch/cloud.html?page='+this.state.pageNum+'&page_size='+ this.state.pageSize
+        // const url = 'https://api.lzw.limmy.com/v1/scratch/cloud.html?page='+this.state.pageNum+'&page_size='+ this.state.pageSize
         fetch(url,{
             method:'GET',
+            credentials: 'include'
         }).then((res)=>{
             return res.text()
         }).then((res)=>{

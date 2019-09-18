@@ -30,7 +30,8 @@ const StageWrapperComponent = function (props) {
                         <div className={styles.hand_left}>
                             <div className={styles.title}>{workInfo.title}</div>
                             <div className={styles.release_date}>
-                                浏览128次&nbsp;&nbsp;|&nbsp;&nbsp;发布于{workInfo.create_at}
+                                {/* 浏览128次&nbsp;&nbsp;|&nbsp;&nbsp;发布于{workInfo.create_at} */}
+                                发布于{workInfo.create_at}
                             </div>
                         </div>
                         <div className={styles.hand_right}>
@@ -91,6 +92,11 @@ const StageWrapperComponent = function (props) {
             className={styles.stageWrapper}
             dir={isRtl ? 'rtl' : 'ltr'}
         >
+            <Box className={styles.stageMenuWrapper}>
+                <StageHeader
+                    vm={vm}
+                />
+            </Box>
             <Box className={styles.stageCanvasWrapper}>
                 {
                     isRendererSupported ?
@@ -101,12 +107,6 @@ const StageWrapperComponent = function (props) {
                         null
                 }
             </Box>
-            <Box className={styles.stageMenuWrapper}>
-                <StageHeader
-                    vm={vm}
-                />
-            </Box>
-
             {/* 加载动画 */}
             {loading ? (
                 <Loader isFullScreen={isFullScreen} />

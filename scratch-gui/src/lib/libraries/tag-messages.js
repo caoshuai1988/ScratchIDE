@@ -6,6 +6,11 @@ export default defineMessages({
         description: 'Tag for filtering a library for everything',
         id: 'gui.libraryTags.all'
     },
+    keji: {
+        defaultMessage: '柯基编程',
+        description: '柯基的素材',
+        id: 'gui.libraryTags.keji'
+    },
     animals: {
         defaultMessage: 'Animals',
         description: 'Tag for filtering a library for animals',
@@ -125,5 +130,6 @@ export default defineMessages({
         defaultMessage: 'Letters',
         description: 'Tag for filtering a library for letters',
         id: 'gui.libraryTags.letters'
-    }
+    },
+    
 });

@@ -44,8 +44,14 @@ import cloudManagerHOC from '../lib/cloud-manager-hoc.jsx';
 import GUIComponent from '../components/gui/gui.jsx';
 import {setIsScratchDesktop} from '../lib/isScratchDesktop.js';
 
+
+function unescapeHTML(url){
+    url = "" + url;
+    return url.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&apos;/g, "'");
+
+}
 function getQueryStringByName (name){
-    var result = location.search.match(new RegExp("[\?\&]" + name+ "=([^\&]+)","i"));
+    var result = unescapeHTML(location.search).match(new RegExp("[\?\&]" + name+ "=([^\&]+)","i"));
     if(result == null || result.length < 1){
         return "";
     }
@@ -72,7 +78,7 @@ class GUI extends React.Component {
         this.props.onStorageInit(storage); // 初始化作品存储加载
         this.props.onVmInit(this.props.vm);//
         this.setReduxTitle('初始化加载作品');
-        this.getCurWorkInfo();
+        // this.getCurWorkInfo();
 //获取路由参数
         //this.setReduxTitle(this.props.projectTitle); // 更新redux里面的项目title
         // const url = './static/assets/a.sb3'
@@ -91,8 +97,6 @@ class GUI extends React.Component {
         if(onlyPlayer!=='') {
             _this.props.onSetOnlyPlayer(JSON.parse(onlyPlayer)); // 初始化设置是否为外部调用只显示播放器模式
         }
-       
-        
     }
 
     componentDidUpdate (prevProps) {
@@ -135,24 +139,6 @@ class GUI extends React.Component {
                 alert(`远程作品错误！${error}`)
             })
         }
-    }
-
-    /**首页初始化获取当前作品详细信息 */
-    getCurWorkInfo() {
-        let _this = this
-        const url = 'https://kejiapi.qbitai.com/v1/works/detail.html?id=7'
-        fetch(url,{
-            method:'GET'
-        }).then((res)=>{
-            return res.text()
-        }).then((res)=>{
-            let response = JSON.parse(res)
-            if(response.error === 0) {
-                _this.props.onSavePrograWorkInfo(response.data)
-            }else {
-                alert(response.msg)
-            }
-        })
     }
 
     setReduxTitle (newTitle) {

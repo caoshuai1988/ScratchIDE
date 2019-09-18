@@ -6,6 +6,9 @@ import React from 'react';
 import styles from './publish-works.css';
 import classNames from 'classnames';
 import publishWork from '../../../lib/publish-work';
+import {setOnlyPlayer} from '../../../reducers/only-player';
+import {setPlayer} from '../../../reducers/mode';
+import {saveWorkInfo} from '../../../reducers/work-info';
 
 class PublishWorks extends React.PureComponent {
     constructor(props){
@@ -16,7 +19,7 @@ class PublishWorks extends React.PureComponent {
             'handlePublishWork'
         ]);
         this.state = {
-            defCover: this.props.defCover,
+            defCover: [],
             selCover: '', //选择上传封面url
             nameRemai: 30, //名称剩余字数
             contentRemai: 500, //内容剩余字数
@@ -25,6 +28,14 @@ class PublishWorks extends React.PureComponent {
             isShare: false, //是否公开分享
             isCode: false, // 是否开源代码
             selFile: '', //上传图片流
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.defCover !== this.state.defCover) {
+            this.setState({
+                defCover: nextProps.defCover
+            })
         }
     }
 
@@ -82,8 +93,15 @@ class PublishWorks extends React.PureComponent {
             img_url: defCover,
             imgdata: this.state.selFile,
         }
+       
         this.props.saveProjectSb3().then(content => {
-            publishWork(work, content);
+            let _this = this;
+            publishWork(work, content, _this.props)
+        }).then((obj)=>{
+            // console.log(JSON.stringify(obj))
+            this.props.closeModal()
+            this.props.onSetOnlyPlayer(true)
+            this.props.onSeeCommunity()
         });
     }
 
@@ -194,7 +212,13 @@ const mapStateToProps = state => ({
     saveProjectSb3: state.scratchGui.vm.saveProjectSb3.bind(state.scratchGui.vm),
 });
 
+const mapDispatchToProps = dispatch => ({
+    onSetOnlyPlayer: onlyPlayer => dispatch(setOnlyPlayer(onlyPlayer)),
+    onSeeCommunity: () => dispatch(setPlayer(true)),
+    onSavePrograWorkInfo: workInfo => dispatch(saveWorkInfo(workInfo)),
+});
+
 export default connect(
     mapStateToProps,
-    () => ({})
+    mapDispatchToProps,
 )(PublishWorks);

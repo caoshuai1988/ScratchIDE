@@ -29,7 +29,7 @@ class MaskLibrary extends React.PureComponent {
             visible: this.props.visible, // 是否显示，
             title: '发布作品',
             loaded: false, //加载状态
-            defCover: ["https://scratch-1259411883.cos.ap-beijing.myqcloud.com/cover20190725112127.png","https://test123-1256342805.cos.ap-chengdu.myqcloud.com/%E6%98%9F%E7%90%83%E8%83%8C%E6%99%AF-%E5%8A%A8%E7%94%BB.png"], //默认封面组
+            defCover: [], //默认封面组
         }
         bindAll(this, []);
     }
@@ -43,7 +43,8 @@ class MaskLibrary extends React.PureComponent {
       /*获取发布页面默认封面图 */
       getDefaulgtCover() {
         let _this = this
-        const url = 'https://kejiapi.qbitai.com/v1/scratch/publish-cover.html'
+        // const url = 'https://kejiapi.qbitai.com/v1/scratch/publish-cover.html'
+        const url = 'https://api.lzw.limmy.com/v1/scratch/publish-cover.html'
         fetch(url,{
             method:'GET'
         }).then((res)=>{

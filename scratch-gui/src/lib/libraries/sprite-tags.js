@@ -1,5 +1,6 @@
 import messages from './tag-messages.js';
 export default [
+    {tag: 'keji', intlLabel: messages.keji},
     {tag: 'animals', intlLabel: messages.animals},
     {tag: 'people', intlLabel: messages.people},
     {tag: 'fantasy', intlLabel: messages.fantasy},
@@ -8,5 +9,5 @@ export default [
     {tag: 'sports', intlLabel: messages.sports},
     {tag: 'food', intlLabel: messages.food},
     {tag: 'fashion', intlLabel: messages.fashion},
-    {tag: 'letters', intlLabel: messages.letters}
+    {tag: 'letters', intlLabel: messages.letters},
 ];
