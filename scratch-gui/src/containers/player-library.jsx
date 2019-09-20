@@ -40,7 +40,6 @@ class PlayerLibrary extends React.PureComponent {
       getDefaulgtCover() {
         let _this = this
         const url = 'https://kejiapi.qbitai.com/v1/scratch/publish-cover.html'
-        // const url = 'https://api.lzw.limmy.com/v1/scratch/publish-cover.html'
         fetch(url,{
             method:'GET',
             credentials: 'include'
@@ -50,7 +49,7 @@ class PlayerLibrary extends React.PureComponent {
             let res = JSON.parse(response)
             if(res.error === 0) {
                 _this.setState({
-                    defCover: res.data
+                    defCover: res.data.covers
                 })
             }else {
                 alert(res.msg)

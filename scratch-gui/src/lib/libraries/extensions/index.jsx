@@ -57,26 +57,6 @@ export default [
     {
         name: (
             <FormattedMessage
-                defaultMessage="hello world"
-                description="Name for the 'hello world' extension"
-                id="gui.extension.helloworld.name"
-            />
-        ),
-        extensionId: 'helloWorld',
-        iconURL: helloworldImage,
-        insetIconURL: helloworldInsetImage,
-        description: (
-            <FormattedMessage
-                defaultMessage="hello world."
-                description="Description for the 'hello world' extension"
-                id="gui.extension.helloworld.description"
-            />
-        ),
-        featured: true
-    },
-    {
-        name: (
-            <FormattedMessage
                 defaultMessage="Music"
                 description="Name for the 'Music' extension"
                 id="gui.extension.music.name"

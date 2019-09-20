@@ -92,6 +92,7 @@ class PublishWorks extends React.PureComponent {
             source_code: this.state.isCode? 1: 2,
             img_url: defCover,
             imgdata: this.state.selFile,
+            stepId: this.props.stepId
         }
        
         this.props.saveProjectSb3().then(content => {
@@ -210,6 +211,7 @@ class PublishWorks extends React.PureComponent {
 
 const mapStateToProps = state => ({
     saveProjectSb3: state.scratchGui.vm.saveProjectSb3.bind(state.scratchGui.vm),
+    stepId: state.scratchGui.videoInfo.stepId
 });
 
 const mapDispatchToProps = dispatch => ({

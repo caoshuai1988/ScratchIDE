@@ -31,7 +31,6 @@ export default (filename, productionId, stepId, sb3) => {
             }).then(response => {
                 // console.log("response:" + response.json())
                 return response.json().then((data)=>{
-                    console.log('data:'+ JSON.stringify(data))
                     if(data.error > 0 ) {
                         message.error(data.msg);
                     }else {

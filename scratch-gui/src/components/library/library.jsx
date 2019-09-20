@@ -169,8 +169,9 @@ class LibraryComponent extends React.Component {
               }
             }
           ]
-
-        sourceList = sourceList.concat(externalList)
+        if(this.props.id === "spriteLibrary") {
+            sourceList = sourceList.concat(externalList)
+        }
         if (this.state.selectedTag === 'all') {
             if (!this.state.filterQuery) return sourceList;
             return sourceList.filter(dataItem => (
@@ -262,7 +263,7 @@ class LibraryComponent extends React.Component {
                             hidden={dataItem.hidden}
                             iconMd5={dataItem.md5}
                             iconType={dataItem.type}
-                            iconRawURL={dataItem.poster}
+                            iconRawURL={ dataItem.type==="keji"? dataItem.poster: dataItem.rawURL}
                             icons={dataItem.json && dataItem.json.costumes}
                             id={index}
                             insetIconURL={dataItem.insetIconURL}

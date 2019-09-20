@@ -37,7 +37,7 @@ class CloudLibrary extends React.PureComponent {
             loaded: false, //加载状态
             pageNum: 1, // 当前页
             total: 0, // 总条数
-            pageSize: 2, //每页显示条数
+            pageSize: 8, //每页显示条数
         }
         bindAll(this, [
             'handleItemSelect',

@@ -27,7 +27,7 @@ class DeletionRestorer extends React.Component {
         ]);
     }
     componentDidMount(){
-        console.log(JSON.stringify(this.props))
+        // console.log(JSON.stringify(this.props))
     }
     restoreDeletion () {
         if (typeof this.props.restore === 'function') {

@@ -174,7 +174,6 @@ class MenuBar extends React.Component {
 
     getUserInfo() {
         let _this = this
-        // const url = 'https://api.lzw.limmy.com/v1/user/info.html'
         const url = 'https://kejiapi.qbitai.com/v1/user/info.html'
         fetch(url,{
             method:'GET',
@@ -359,10 +358,11 @@ class MenuBar extends React.Component {
 
     handleOperateBtn() {
         let operateItem = this.props.workType.workType
+        let stepId = this.props.stepId
         switch(operateItem) {
             case 'Practice':
-                // window.location.replace('https://kejihome.qbitai.com')
-                window.location.href='http://localhost:3000?stepId=23#/video'
+                window.location.href ='https://kejihome.qbitai.com?stepId='+stepId+'#/video'
+                // window.location.href='http://localhost:3000?stepId=23#/video'
                 break;
             case 'Homework':
                     this.props.onMaskModalButtonClick()
@@ -922,6 +922,7 @@ const mapStateToProps = (state, ownProps) => {
         currentLocale: state.locales.locale, //当前语言
         userInfo: state.scratchGui.userInfo, //自有接口 获取用户信息
         workType: state.scratchGui.workType, //自有接口 获取操作作品类型
+        stepId: state.scratchGui.videoInfo.stepId,
     };
 };
 

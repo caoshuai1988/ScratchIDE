@@ -55,8 +55,6 @@ class Storage extends ScratchStorage {
     }
     getAssetGetConfig (asset) {
         if(asset.assetType.runtimeFormat === "png") {
-            // return `https://assets.xiguacity.cn/scratchr2/static/medialibrarythumbnails/`+asset.assetId+'.'+asset.dataFormat
-            console.log(`https://course-1259411883.cos.ap-beijing.myqcloud.com/Course/`+asset.assetId+'.'+asset.dataFormat)
             return `https://course-1259411883.cos.ap-beijing.myqcloud.com/Course/`+ asset.assetId +'.'+ asset.dataFormat
         }else {
             return `${this.assetHost}/internalapi/asset/${asset.assetId}.${asset.dataFormat}/get/`;

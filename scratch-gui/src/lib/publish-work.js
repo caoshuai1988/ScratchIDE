@@ -14,7 +14,6 @@ function dataURItoBlob (dataURI){
   /**redux 项目信息更新 */
 function getCurWorkInfo(id, props) {
     const url = 'https://kejiapi.qbitai.com/v1/works/detail.html?id='+id
-    // const url = 'https://api.lzw.limmy.com/v1/works/detail.html?id='+id
     fetch(url,{
         method:'GET',
         credentials: "include",
@@ -43,17 +42,16 @@ export default (work, sb3, props) => {
             fd.append('title', work.fileName);
             fd.append('details', work.details);
             fd.append('imgdata', work.imgdata!==""?work.imgdata: '');// 用户上传封面
-            fd.append('step_id', '14');
+            fd.append('step_id', work.stepId);
             fd.append('source_code', work.source_code);
             fd.append('status', work.status);
             fd.append('img_url', work.img_url);
-            //https://kejiapi.qbitai.com/v1/scratch/workhome.html
-            fetch("https://api.lzw.limmy.com/v1/scratch/workhome.html",{
+            fetch("https://kejiapi.qbitai.com/v1/scratch/workhome.html",{
                 method: 'PUT',
                 body: fd
             }).then(response => {
                 return response.json().then((data)=> {
-                    if(data.error > 0) {
+                    if(data.code > 0) {
                         message.error(data.msg)
                     }else {
                         message.success('作品发布成功')
