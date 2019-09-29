@@ -23,13 +23,11 @@ export default (filename, productionId, stepId, sb3) => {
             fd.set('filedata', binary, filename);
             fd.append('production_id', '');
             fd.append('step_id', stepId);
-            // fetch("https://api.lzw.limmy.com/v1/scratch/temporary.html",{
             fetch("https://kejiapi.qbitai.com/v1/scratch/temporary.html",{
                 method: 'PUT',
                 body: fd,
                 credentials: 'include'
             }).then(response => {
-                // console.log("response:" + response.json())
                 return response.json().then((data)=>{
                     if(data.error > 0 ) {
                         message.error(data.msg);

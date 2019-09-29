@@ -1,4 +1,4 @@
-import { message, Button } from 'antd'; // antd组件
+import { message } from 'antd'; // antd组件
 
 function dataURItoBlob (dataURI){
     var byteString = atob(dataURI.split(',')[1]);
@@ -48,10 +48,11 @@ export default (work, sb3, props) => {
             fd.append('img_url', work.img_url);
             fetch("https://kejiapi.qbitai.com/v1/scratch/workhome.html",{
                 method: 'PUT',
-                body: fd
+                credentials: 'include',
+                body: fd,
             }).then(response => {
                 return response.json().then((data)=> {
-                    if(data.code > 0) {
+                    if(data.error > 0) {
                         message.error(data.msg)
                     }else {
                         message.success('作品发布成功')

@@ -127,7 +127,8 @@ class CloudLibrary extends React.PureComponent {
     handleLoadWork(url) {
         if(url !== null && url !="" ){
             fetch(url,{
-                method:'GET'
+                method:'GET',
+                credentials: "include",
             })
             .then(response => 
                 response.blob() 

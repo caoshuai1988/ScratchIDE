@@ -1,9 +1,9 @@
 body {
     margin: 0;
 }
-.stage-only {
+/*.stage-only {
     width: 480px;
-}
+}*/
 
 .editor {
     position: absolute;

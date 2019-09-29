@@ -20411,5 +20411,82 @@
             "visible": true,
             "spriteInfo": {}
         }
-    }
+    },
+
+    {
+        "name": "飞行器",
+        "md5": "fd2a6dfcd9e7200871e6ad9cf5cb79f0",
+        "poster": "https://course-1259411883.cos.ap-beijing.myqcloud.com/Course/fd2a6dfcd9e7200871e6ad9cf5cb79f0.png",
+        "type": "keji",
+        "tags": [
+          "素材奖励活动",
+          "奖励",
+          "keji"
+        ],
+        "info": [
+          0.5
+        ],
+        "json": {
+          "objName": "飞行器",
+          "costumes": [
+            {
+              "costumeName": "飞行器",
+              "baseLayerID:": -1,
+              "baseLayerMD5": "fd2a6dfcd9e7200871e6ad9cf5cb79f0",
+              "bitmapResolution": 1
+            }
+          ],
+          "currentCostumeIndex": 0,
+          "scale": 1,
+          "direction": 90,
+          "rotationStyle": "normal",
+          "isDraggable": false,
+          "visible": true,
+          "spriteInfo": {}
+        },
+        "extra": {
+          "enabled": true,
+          "message": "",
+          "detail": "",
+          "preview": ""
+        }
+      },
+      {
+        "name": "空间站",
+        "md5": "9a8bc0513e84387dfa437fda398471fc",
+        "poster": "https://course-1259411883.cos.ap-beijing.myqcloud.com/Course/9a8bc0513e84387dfa437fda398471fc.png",
+        "type": "keji",
+        "tags": [
+          "素材奖励活动",
+          "奖励",
+          "keji"
+        ],
+        "info": [
+          0.5
+        ],
+        "json": {
+          "objName": "空间站",
+          "costumes": [
+            {
+              "costumeName": "空间站",
+              "baseLayerID:": -1,
+              "baseLayerMD5": "9a8bc0513e84387dfa437fda398471fc",
+              "bitmapResolution": 1
+            }
+          ],
+          "currentCostumeIndex": 0,
+          "scale": 1,
+          "direction": 90,
+          "rotationStyle": "normal",
+          "isDraggable": false,
+          "visible": true,
+          "spriteInfo": {}
+        },
+        "extra": {
+          "enabled": false,
+          "message": "",
+          "detail": "",
+          "preview": ""
+        }
+      }
 ]

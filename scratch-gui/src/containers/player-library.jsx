@@ -41,8 +41,7 @@ class PlayerLibrary extends React.PureComponent {
         let _this = this
         const url = 'https://kejiapi.qbitai.com/v1/scratch/publish-cover.html'
         fetch(url,{
-            method:'GET',
-            credentials: 'include'
+            method:'GET'
         }).then((res)=>{
             return res.text()
         }).then((response)=>{

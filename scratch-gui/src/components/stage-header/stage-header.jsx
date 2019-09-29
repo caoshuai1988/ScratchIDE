@@ -58,7 +58,8 @@ const StageHeaderComponent = function (props) {
         onSetStageUnFull,
         showBranding,
         stageSizeMode,
-        vm
+        vm,
+        workType,
     } = props;
 
     let header = null;
@@ -153,7 +154,7 @@ const StageHeaderComponent = function (props) {
                     <div className={styles.stageSizeRow}>
                         {stageControls}
                         <div>
-                            <Button
+                            {workType!==''? <Button
                                 className={styles.stageButton}
                                 onClick={onSetStageFull}
                             >
@@ -164,7 +165,19 @@ const StageHeaderComponent = function (props) {
                                     src={fullScreenIcon}
                                     title={props.intl.formatMessage(messages.fullscreenControl)}
                                 />
-                            </Button>
+                            </Button>: null}
+                            {/* <Button
+                                className={styles.stageButton}
+                                onClick={onSetStageFull}
+                            >
+                                <img
+                                    alt={props.intl.formatMessage(messages.fullStageSizeMessage)}
+                                    className={styles.stageButtonIcon}
+                                    draggable={false}
+                                    src={fullScreenIcon}
+                                    title={props.intl.formatMessage(messages.fullscreenControl)}
+                                />
+                            </Button> */}
                         </div>
                     </div>
                 </Box>
@@ -177,7 +190,8 @@ const StageHeaderComponent = function (props) {
 
 const mapStateToProps = state => ({
     // This is the button's mode, as opposed to the actual current state
-    stageSizeMode: state.scratchGui.stageSize.stageSize
+    stageSizeMode: state.scratchGui.stageSize.stageSize,
+    workType: state.scratchGui.workType.workType, //获取显示播放器模式
 });
 
 StageHeaderComponent.propTypes = {
@@ -191,7 +205,8 @@ StageHeaderComponent.propTypes = {
     onSetStageUnFull: PropTypes.func.isRequired,
     showBranding: PropTypes.bool.isRequired,
     stageSizeMode: PropTypes.oneOf(Object.keys(STAGE_SIZE_MODES)),
-    vm: PropTypes.instanceOf(VM).isRequired
+    vm: PropTypes.instanceOf(VM).isRequired,
+    workType: PropTypes.string
 };
 
 StageHeaderComponent.defaultProps = {

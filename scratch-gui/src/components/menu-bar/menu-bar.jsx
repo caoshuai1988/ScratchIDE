@@ -806,6 +806,9 @@ class MenuBar extends React.Component {
                             {this.props.showComingSoon ? (
                                 <React.Fragment>
                                     <div
+                                        onClick={()=> {
+                                            location.replace('https://kejihome.qbitai.com#userInfo')
+                                        }}
                                         className={classNames(
                                             styles.menuBarItem,
                                             styles.hoverable,

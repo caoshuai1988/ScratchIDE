@@ -1,6 +1,19 @@
 @import "../../css/units.css";
 @import "../../css/colors.css";
 
+.box_background {
+   position: absolute;
+   top:0;
+   left:0;
+   right:0;
+   bottom:0;
+   background: url('../../../static/images/box-bg.png') no-repeat center center;
+   background-size: cover;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
 .stage-wrapper * {
     box-sizing: border-box;
 }
@@ -26,6 +39,8 @@
     box-sizing: content-box;
     margin: 0 auto;
     padding: 35px 50px 48px;
+    background-color: #fff;
+    border-radius: 16px;
 }
 .mask_container {
     display: flex;
@@ -63,8 +78,8 @@
     max-width: 1200px;
     margin: 0 auto;
     padding-top: 50px;
+    margin-bottom: 48px;
 }
-.left_content {}
 .middle_content {
     width: 3rem;
 }

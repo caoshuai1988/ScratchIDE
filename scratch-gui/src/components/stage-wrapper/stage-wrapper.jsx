@@ -22,7 +22,7 @@ const StageWrapperComponent = function (props) {
         workInfo
     } = props;
     return (
-        <Box>
+        <Box className={player? styles.box_background: null}>
             {player ? ( 
             <div className={styles.mask}>
                 <div className={styles.mask_container}>
