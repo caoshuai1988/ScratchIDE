@@ -9,7 +9,8 @@
     right: 0;
     bottom: 0;
     z-index: $z-index-modal;
-    background-color: rgba(0, 0, 0, .5)
+    background: url('../../../static/images/box-bg.png') no-repeat center center;
+    background-size: cover;
 }
 
 .modal-content * {

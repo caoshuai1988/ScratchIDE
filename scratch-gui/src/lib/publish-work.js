@@ -13,7 +13,8 @@ function dataURItoBlob (dataURI){
 
   /**redux 项目信息更新 */
 function getCurWorkInfo(id, props) {
-    const url = 'https://kejiapi.qbitai.com/v1/works/detail.html?id='+id
+    // const url = 'https://kejiapi.qbitai.com/v1/works/detail.html?id='+id
+    const url = 'https://api.kejicode.com/v1/works/detail.html?id='+id
     fetch(url,{
         method:'GET',
         credentials: "include",
@@ -46,7 +47,8 @@ export default (work, sb3, props) => {
             fd.append('source_code', work.source_code);
             fd.append('status', work.status);
             fd.append('img_url', work.img_url);
-            fetch("https://kejiapi.qbitai.com/v1/scratch/workhome.html",{
+            // fetch("https://kejiapi.qbitai.com/v1/scratch/workhome.html",{
+            fetch("https://api.kejicode.com/v1/scratch/workhome.html",{
                 method: 'PUT',
                 credentials: 'include',
                 body: fd,

@@ -13,9 +13,9 @@ var postcssVars = require('postcss-simple-vars');
 var postcssImport = require('postcss-import');
 
 const STATIC_PATH = process.env.STATIC_PATH || '/static';
-// process.env.NODE_ENV = 'production'; // 全局环境条件-生产环境
+process.env.NODE_ENV = 'production'; // 全局环境条件-生产环境
 
-process.env.NODE_ENV = 'development'; // -开发环境
+// process.env.NODE_ENV = 'development'; // -开发环境
 const base = {
     mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
     devtool: 'cheap-module-source-map',

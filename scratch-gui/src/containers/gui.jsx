@@ -73,15 +73,12 @@ class GUI extends React.Component {
     }
 
     componentDidMount () {
-        // let _this = this;
         setIsScratchDesktop(this.props.isScratchDesktop);// 设置是否在桌面下运行
         this.props.onStorageInit(storage); // 初始化作品存储加载
         this.props.onVmInit(this.props.vm);//
         this.setReduxTitle('初始化加载作品');
-        // this.getCurWorkInfo();
 //获取路由参数
         //this.setReduxTitle(this.props.projectTitle); // 更新redux里面的项目title
-        // const url = './static/assets/a.sb3'
         // const url ='https://work-1259411883.cos.ap-beijing.myqcloud.com/Work/fb916a71b9933cb9be753d6a22f36903.sb3
         sb3File = getQueryStringByName('sb3File')
         let setpType = getQueryStringByName('stepType');

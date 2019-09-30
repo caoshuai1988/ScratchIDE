@@ -23,7 +23,8 @@ export default (filename, productionId, stepId, sb3) => {
             fd.set('filedata', binary, filename);
             fd.append('production_id', '');
             fd.append('step_id', stepId);
-            fetch("https://kejiapi.qbitai.com/v1/scratch/temporary.html",{
+            // fetch("https://kejiapi.qbitai.com/v1/scratch/temporary.html",{
+            fetch("https://api.kejicode.com/v1/scratch/temporary.html",{
                 method: 'PUT',
                 body: fd,
                 credentials: 'include'

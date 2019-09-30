@@ -174,7 +174,8 @@ class MenuBar extends React.Component {
 
     getUserInfo() {
         let _this = this
-        const url = 'https://kejiapi.qbitai.com/v1/user/info.html'
+        // const url = 'https://kejiapi.qbitai.com/v1/user/info.html'
+        const url = 'https://api.kejicode.com/v1/user/info.html'
         fetch(url,{
             method:'GET',
             credentials: "include",
